@@ -67,4 +67,13 @@ interface IPowerManager
     // sets the delai after which to check the proximity to decide whether
     // to wake the device
     void wakeUpWithProximityCheck(long time, String reason, String opPackageName);
+
+    // power manager
+    void cpuBoost(int duration);
+    void launchBoost();
+
+    boolean setPowerProfile(String profile);
+    String getPowerProfile();
+
+    void activityResumed(String componentName);
 }
