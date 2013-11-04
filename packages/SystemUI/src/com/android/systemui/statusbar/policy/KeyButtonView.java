@@ -88,6 +88,8 @@ public class KeyButtonView extends ImageView {
 
     private final Handler mHandler = new Handler();
 
+    private PowerManager mPm;
+
     private final Runnable mCheckLongPress = new Runnable() {
         public void run() {
             mIsLongpressed = true;
@@ -138,6 +140,7 @@ public class KeyButtonView extends ImageView {
         mTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
         mAudioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         setBackground(mRipple = new KeyButtonRipple(context, this));
+        mPm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
     }
 
     @Override
@@ -247,6 +250,9 @@ public class KeyButtonView extends ImageView {
         if (mGestureAborted) {
             return false;
         }
+
+        // A lot of stuff is about to happen. Lets get ready.
+        mPm.cpuBoost(750000);
 
         switch (action) {
             case MotionEvent.ACTION_DOWN:
