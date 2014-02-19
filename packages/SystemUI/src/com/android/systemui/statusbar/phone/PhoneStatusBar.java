@@ -344,7 +344,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
     private boolean mWakeUpComingFromTouch;
     private PointF mWakeUpTouchLocation;
     private boolean mScreenTurningOn;
-    private StatusBarHeaderMachine mStatusBarHeaderMachine;
 
     private ShakeSensorManager mShakeSensorManager;
     private boolean mShakeClean;
