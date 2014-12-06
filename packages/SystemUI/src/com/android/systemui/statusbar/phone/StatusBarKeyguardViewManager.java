@@ -213,7 +213,6 @@ public class StatusBarKeyguardViewManager {
             updateStates();
         }
         mPhoneStatusBar.onScreenTurnedOn();
-        mStatusBarWindowManager.onKeyguardChanged();
     }
 
     public void onScreenTurnedOff() {
