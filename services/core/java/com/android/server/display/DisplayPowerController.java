@@ -25,6 +25,7 @@ import com.android.server.policy.keyguard.KeyguardServiceWrapper;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.content.ComponentName;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
@@ -32,6 +33,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.database.ContentObserver;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -151,7 +153,7 @@ final class DisplayPowerController implements AutomaticBrightnessController.Call
     private Sensor mProximitySensor;
 
     // The doze screen brightness.
-    private final int mScreenBrightnessDozeConfig;
+    private int mScreenBrightnessDozeConfig;
 
     // The dim screen brightness.
     private final int mScreenBrightnessDimConfig;
@@ -266,6 +268,10 @@ final class DisplayPowerController implements AutomaticBrightnessController.Call
     private ObjectAnimator mColorFadeOffAnimator;
     private RampAnimator<DisplayPowerState> mScreenBrightnessRampAnimator;
 
+    private float mDozeBrightnessScale = -0.01f;
+    private final int mDozeBrightnessDefault;
+    private final int mMaxBrightness;
+
     private KeyguardServiceWrapper mKeyguardService;
 
     private final ServiceConnection mKeyguardConnection = new ServiceConnection() {
@@ -300,8 +306,17 @@ final class DisplayPowerController implements AutomaticBrightnessController.Call
         final int screenBrightnessSettingMinimum = clampAbsoluteBrightness(resources.getInteger(
                 com.android.internal.R.integer.config_screenBrightnessSettingMinimum));
 
-        mScreenBrightnessDozeConfig = clampAbsoluteBrightness(resources.getInteger(
-                com.android.internal.R.integer.config_screenBrightnessDoze));
+        // Settings observer
+        SettingsObserver observer = new SettingsObserver(mHandler);
+        observer.observe();
+
+        mDozeBrightnessDefault = resources.getInteger(
+                com.android.internal.R.integer.config_screenBrightnessDoze);
+        mMaxBrightness = resources.getInteger(
+                com.android.internal.R.integer.config_screenBrightnessSettingMaximum);
+        mScreenBrightnessDozeConfig = clampAbsoluteBrightness(
+                (mDozeBrightnessScale == -0.01f) ? mDozeBrightnessDefault
+                : (int) (mDozeBrightnessScale * mMaxBrightness));
 
         mScreenBrightnessDimConfig = clampAbsoluteBrightness(resources.getInteger(
                 com.android.internal.R.integer.config_screenBrightnessDim));
@@ -402,6 +417,44 @@ final class DisplayPowerController implements AutomaticBrightnessController.Call
                 Context.BIND_AUTO_CREATE, UserHandle.OWNER);
 
     }
+        /**
+         * Settingsobserver to take care of the user settings.
+         */
+        private class SettingsObserver extends ContentObserver {
+            SettingsObserver(Handler handler) {
+                super(handler);
+            }
+
+            void observe() {
+                ContentResolver resolver = mContext.getContentResolver();
+                resolver.registerContentObserver(Settings.System.getUriFor(
+                        Settings.System.DOZE_BRIGHTNESS),
+                        false, this, UserHandle.USER_ALL);
+                update();
+            }
+
+            @Override
+            public void onChange(boolean selfChange) {
+                super.onChange(selfChange);
+                update();
+            }
+
+            public void update() {
+                ContentResolver resolver = mContext.getContentResolver();
+
+                // Get doze brightness
+                mDozeBrightnessScale = Settings.System.getFloatForUser(resolver,
+                        Settings.System.DOZE_BRIGHTNESS,
+                        -0.01f, UserHandle.USER_CURRENT);
+                // do not allow zero brightness
+                if (mDozeBrightnessScale == 0.0f) {
+                    mDozeBrightnessScale = 0.005f;
+                }
+                mScreenBrightnessDozeConfig = clampAbsoluteBrightness(
+                        (mDozeBrightnessScale == -0.01f) ? mDozeBrightnessDefault
+                        : (int) (mDozeBrightnessScale * mMaxBrightness));
+            }
+        }
 
     /**
      * Returns true if the proximity sensor screen-off function is available.
