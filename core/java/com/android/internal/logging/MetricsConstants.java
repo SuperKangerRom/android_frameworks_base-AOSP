@@ -269,6 +269,8 @@ public interface MetricsConstants {
     // VRToxin-AOSP
     public static final int VRTOXIN_AOSP = 420;
 
+    public static final int VRTOXIN_QS_CONSTANTS = 999;
+
     //aliases
     public static final int DEVICEINFO_STORAGE = DEVICEINFO_MEMORY;
 }
