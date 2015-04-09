@@ -127,6 +127,11 @@ class KeyguardMessageArea extends TextView implements SecurityMessageDisplay {
     }
 
     @Override
+    public boolean isEmpty() {
+        return TextUtils.isEmpty(mMessage);
+    }
+
+    @Override
     public void setDefaultMessage(final int resId) {
         mDefaultMessage = getContext().getResources().getText(resId);
     }
