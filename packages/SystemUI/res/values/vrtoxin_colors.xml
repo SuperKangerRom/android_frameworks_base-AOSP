@@ -103,4 +103,9 @@
     <!-- Expansion View Background Color (default)-->
     <color name="expansion_view_bg_color">#ffffffff</color>
 
+    <!-- Play Queue -->
+    <color name="notification_guts_media_bg_color">#ff606060</color>
+    <color name="queue_background">#ff303030</color>
+    <color name="queue_background_pressed">#ff606060</color>
+
 </resources>
