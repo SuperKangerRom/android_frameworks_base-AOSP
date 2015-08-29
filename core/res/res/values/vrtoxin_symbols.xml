@@ -48,9 +48,6 @@
   <java-symbol type="bool" name="config_show_IMESwitcher" />
 
   <!-- Config Power Menu -->
-  <java-symbol type="id" name="option1" />
-  <java-symbol type="id" name="option2" />
-  <java-symbol type="id" name="option3" />
   <java-symbol type="id" name="option4" />
   <java-symbol type="id" name="option5" />
   <java-symbol type="id" name="option1_icon" />
