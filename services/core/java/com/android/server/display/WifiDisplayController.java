@@ -893,6 +893,11 @@ final class WifiDisplayController implements DumpUtils.Dump {
                     }
                 });
             }
+          } else if (networkInfo.getState() == NetworkInfo.State.CONNECTING) {
+             // Nothing to do...
+             if (DEBUG) {
+                 Slog.d(TAG, "Connecting... ");
+             }
         } else {
             mConnectedDeviceGroupInfo = null;
 
