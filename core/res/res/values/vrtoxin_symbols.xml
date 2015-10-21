@@ -32,4 +32,7 @@
   <java-symbol type="integer" name="config_deviceHardwareKeys" />
   <java-symbol type="integer" name="config_deviceHardwareWakeKeys" />
 
+  <!-- Default name of the custom carrier label -->
+  <java-symbol type="string" name="default_custom_label" />
+
 </resources>
