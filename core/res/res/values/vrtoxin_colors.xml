@@ -18,5 +18,4 @@
 
     <color name="material_blue_grey">#ff1b1f23</color>
     <drawable name="material_bg_blue_grey">@color/material_blue_grey</drawable>
-
 </resources>
