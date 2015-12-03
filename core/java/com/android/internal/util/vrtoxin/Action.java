@@ -392,7 +392,7 @@ public class Action {
                         Settings.System.GESTURE_ANYWHERE_ENABLED,
                         gestureAnywhereState ? 0 : 1, UserHandle.USER_CURRENT);
                 return;
-            } else if (action.equals(ActionConstants.ACTION_HWKEYS)) {
+/*            } else if (action.equals(ActionConstants.ACTION_HWKEYS)) {
                 boolean hWKeysState = isHWKeysEnabled(context);
                 if (hWKeysState && !isNavBarEnabled(context) && isNavBarDefault(context)) {
                     Toast.makeText(context,
@@ -404,7 +404,7 @@ public class Action {
                         context.getContentResolver(),
                         Settings.System.HW_KEYS_ENABLED,
                         hWKeysState ? 0 : 1, UserHandle.USER_CURRENT);
-                return;
+                return;*/
             } else {
                 // we must have a custom uri
                 Intent intent = null;
@@ -454,13 +454,13 @@ public class Action {
                 Settings.System.GESTURE_ANYWHERE_ENABLED,
                 0, UserHandle.USER_CURRENT) == 1;
     }
-
+/*
     public static boolean isHWKeysEnabled(Context context) {
         return Settings.System.getIntForUser(context.getContentResolver(),
                 Settings.System.HW_KEYS_ENABLED,
                 0, UserHandle.USER_CURRENT) == 1;
     }
-
+*/
     public static boolean isActionKeyEvent(String action) {
         if (action.equals(ActionConstants.ACTION_HOME)
                 || action.equals(ActionConstants.ACTION_BACK)
