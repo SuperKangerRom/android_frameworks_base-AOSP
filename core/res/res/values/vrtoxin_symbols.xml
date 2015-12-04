@@ -209,4 +209,7 @@
 
   <java-symbol type="string" name="default_greeting_welcome" />
 
+  <!-- Screen record shortcut -->
+  <java-symbol type="bool" name="config_enableScreenrecordChord" />
+
 </resources>
