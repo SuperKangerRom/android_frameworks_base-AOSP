@@ -16,6 +16,108 @@
 -->
 <resources>
 
+    <string name="global_action_reboot">Reboot</string>
+    <!-- Button to reboot the phone, within the Phone Options dialog -->
+    <string name="reboot_system" product="tablet">Reboot tablet</string>
+    <string name="reboot_system" product="default">Reboot phone</string>
+
+    <!-- Button to reboot the phone, within the Reboot Options dialog -->
+    <string name="reboot_reboot">Reboot</string>
+    <!-- Button to soft reboot the phone, within the Reboot Options dialog -->
+    <string name="reboot_quick_reboot">Quick reboot</string>
+    <!-- Button to reboot the phone into recovery, within the Reboot Options dialog -->
+    <string name="reboot_recovery">Recovery</string>
+    <!-- Button to reboot the phone into bootloader, within the Reboot Options dialog -->
+    <string name="reboot_bootloader">Bootloader</string>
+
+    <!-- Reboot Progress Dialog. This is shown if the user chooses to reboot the phone. -->
+    <string name="reboot_progress">Rebooting\u2026</string>
+    <!-- Reboot Confirmation Dialog.  When the user chooses to reboot the phone, there will be a confirmation dialog.  This is the message. -->
+    <string name="reboot_confirm" product="tablet">Your tablet will reboot.</string>
+    <string name="reboot_confirm" product="default">Your phone will reboot.</string>
+
+    <!-- Title of the button to change the expanded desktop state, within the global actions dialog -->
+    <string name="global_actions_toggle_expanded_desktop_mode">Exp. deskt.</string>
+    <!-- On state of the expanded desktop button -->
+    <string name="global_actions_expanded_desktop_mode_on_status">Enabled for all apps</string>
+    <!-- Off state of the expanded desktop button -->
+    <string name="global_actions_expanded_desktop_mode_off_status">User configuration</string>
+    <!-- Title of the button to take a screenshot, within the global actions dialog -->
+    <string name="global_action_screenshot">Screenshot</string>
+
+    <string name="silent_mode_priority">Priority</string>
+    <string name="silent_mode_none">None</string>
+
+    <!-- status message in phone options dialog for when pie is on -->
+    <string name="global_actions_pie_mode_on_status">SlimPie is ON</string>
+
+    <!-- status message in phone options dialog for when pie is off -->
+    <string name="global_actions_pie_mode_off_status">SlimPie is OFF</string>
+
+    <!-- Error message if user want to try to disable all navigation options -->
+    <string name="disable_pie_navigation_error">You cannot disable pie controls. No other navigation is enabled. Enable first the navigation bar to turn off pie controls.</string>
+
+    <!-- status message in phone options dialog for when navigation bar is on -->
+    <string name="global_actions_nav_bar_mode_on_status">Navigation bar is ON</string>
+
+    <!-- status message in phone options dialog for when navigation bar is off -->
+    <string name="global_actions_nav_bar_mode_off_status">Navigation bar is OFF</string>
+
+    <!-- Error message if user want to try to disable all navigation options -->
+    <string name="disable_navigation_pie_error">You cannot disable the navigation bar. No other navigation is enabled. Enable first pie controls to turn off the navigation bar.</string>
+
+    <!-- status message in phone options dialog for when AppCircleBar is on -->
+    <string name="global_actions_appcirclebar_mode_on_status">AppCircleBar is ON</string>
+    <!-- status message in phone options dialog for when AppCircleBar is off -->
+    <string name="global_actions_appcirclebar_mode_off_status">AppCircleBar is OFF</string>
+
+    <!-- status message in phone options dialog for when AppSideBar is on -->
+    <string name="global_actions_appsidebar_mode_on_status">AppSideBar is ON</string>
+    <!-- status message in phone options dialog for when AppSideBar is off -->
+    <string name="global_actions_appsidebar_mode_off_status">AppSideBar is OFF</string>
+
+    <!-- status message in phone options dialog for when pie is on -->
+    <string name="global_actions_gesture_anywhere_mode_on_status">Gesture Anywhere is ON</string>
+    <!-- status message in phone options dialog for when pie is off -->
+    <string name="global_actions_gesture_anywhere_mode_off_status">Gesture Anywhere is OFF</string>
+
+    <string name="global_actions_toggle_pie_mode">Pie control</string>
+    <string name="global_actions_toggle_nav_bar">Navigation bar</string>
+    <string name="global_actions_toggle_appcirclebar_mode">AppCircleBar</string>
+    <string name="global_actions_toggle_appsidebar_mode">AppSideBar</string>
+    <string name="global_actions_toggle_gesture_anywhere_mode">Gesture Anywhere</string>
+
+    <!-- Slimseekbar -->
+    <string name="default_string">Default</string>
+
+    <!-- AOKP custom system animations -->
+    <string name="animation_fade">Fade</string>
+    <string name="animation_slide_right">Slide in right</string>
+    <string name="animation_slide_left">Slide in left</string>
+    <string name="animation_slide_right_no_fade">Slide in right (No fade)</string>
+    <string name="animation_slide_left_no_fade">Slide in left (No fade)</string>
+    <string name="animation_slide_up">Slide in bottom</string>
+    <string name="animation_slide_down">Slide in top</string>
+    <string name="animation_default">Default</string>
+    <string name="animation_translucent">Translucent</string>
+    <string name="animation_grow_shrink">Grow in (Top)</string>
+    <string name="animation_grow_shrink_center">Grow in (Center)</string>
+    <string name="animation_grow_shrink_bottom">Grow in (Bottom)</string>
+    <string name="animation_grow_shrink_left">Grow in (Left)</string>
+    <string name="animation_grow_shrink_right">Grow in (Right)</string>
+    <string name="animation_random">Random</string>
+    <string name="action_null">Blank</string>
+
+    <!-- Setting confirmation dialog strings. Shown when any UI interaction can be modified by user input -->
+    <string name="setting_confirmation_ask_me_later">Ask later</string>
+    <string name="setting_confirmation_yes">Yes</string>
+    <string name="setting_confirmation_no">No</string>
+
+    <!-- Title of an application permission, listed so the user can choose whether they want the application to do this. -->
+    <string name="permlab_setKeyguardWallpaper">Set keyguard wallpaper</string>
+    <!-- Description of an application permission, listed so the user can choose whether they want to allow the application to do this. -->
+    <string name="permdesc_setKeyguardWallpaper">Allows an app to change the lock screen wallpaper.</string>
+
     <!-- Title of a category of application permissions, listed so the user can choose whether they want to allow the application to do this. -->
     <string name="permgrouplab_security">Security</string>
     <!-- Description of a category of application permissions, listed so the user can choose whether they want to allow the application to do this. -->
