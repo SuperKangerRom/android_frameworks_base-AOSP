@@ -2388,4 +2388,8 @@
     <!-- Doze: force using accelerometer as pick up sensor -->
     <bool name="config_dozeUseAccelerometer">false</bool>
 
+    <!-- The BT name of the keyboard packaged with the device. If this is defined, SystemUI will
+         automatically try to pair with it when the device exits tablet mode. -->
+    <string translatable="false" name="config_packagedKeyboardName"></string>
+
 </resources>
