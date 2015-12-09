@@ -430,8 +430,8 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
 
     @Override
     public void onBatteryLevelChanged(int level, boolean pluggedIn, boolean charging) {
-        String percentage = NumberFormat.getPercentInstance().format((double) level / 100.0);
-        mBatteryLevel.setText(percentage);
+        //String percentage = NumberFormat.getPercentInstance().format((double) level / 100.0);
+        //mBatteryLevel.setText(percentage);
     }
 
     @Override

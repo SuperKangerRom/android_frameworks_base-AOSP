@@ -191,7 +191,7 @@
     <string name="reboot_to_update_prepare" msgid="6305853831955310890">"Update voorbereiden…"</string>
     <string name="reboot_to_update_package" msgid="3871302324500927291">"Updatepakket verwerken…"</string>
     <string name="reboot_to_update_reboot" msgid="6428441000951565185">"Opnieuw opstarten…"</string>
-    <string name="reboot_to_reset_title" msgid="4142355915340627490">"Terugzetten op fabrieksinstellingen"</string>
+    <string name="reboot_to_reset_title" msgid="4142355915340627490">"Opnieuw opstarten naar recovery."</string>
     <string name="reboot_to_reset_message" msgid="2432077491101416345">"Opnieuw opstarten…"</string>
     <string name="shutdown_progress" msgid="2281079257329981203">"Uitschakelen..."</string>
     <string name="shutdown_confirm" product="tablet" msgid="3385745179555731470">"Je tablet wordt uitgeschakeld."</string>
