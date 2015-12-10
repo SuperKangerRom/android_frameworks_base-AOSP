@@ -136,4 +136,7 @@
 
     <string name="default_greeting_welcome">Welcome: VRToxin</string>
 
+    <!-- label for item that screenrecord in phone options dialog -->
+    <string name="global_action_screenrecord">Screenrecord</string>
+
 </resources>
