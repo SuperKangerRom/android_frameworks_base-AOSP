@@ -54,7 +54,6 @@ import com.android.systemui.qs.tiles.HotspotTile;
 import com.android.systemui.qs.tiles.IntentTile;
 import com.android.systemui.qs.tiles.LocationTile;
 import com.android.systemui.qs.tiles.MusicTile;
-import com.android.systemui.qs.tiles.LockscreenToggleTile;
 import com.android.systemui.qs.tiles.NfcTile;
 import com.android.systemui.qs.tiles.RebootTile;
 import com.android.systemui.qs.tiles.RotationLockTile;
@@ -289,41 +288,39 @@ public class QSTileHost implements QSTile.Host {
             case QSConstants.TILE_DND:
                 return new DndTile(this);
             case QSConstants.TILE_VRTOXIN:
-				return new VRToxinTile(this);
+                return new VRToxinTile(this);
             case QSConstants.TILE_SCREENOFF:
                 return new ScreenOffTile(this);
             case QSConstants.TILE_BRIGHTNESS:
                 return new BrightnessTile(this);
             case QSConstants.TILE_SCREENSHOT:
-				return new ScreenshotTile(this);
+                return new ScreenshotTile(this);
             case QSConstants.TILE_VOLUME:
-				return new VolumeTile(this);
+                return new VolumeTile(this);
             case QSConstants.TILE_EXPANDED_DESKTOP:
-				return new ExpandedDesktopTile(this);
+                return new ExpandedDesktopTile(this);
             case QSConstants.TILE_SCREEN_TIMEOUT:
-				return new ScreenTimeoutTile(this);
+                return new ScreenTimeoutTile(this);
             case QSConstants.TILE_USB_TETHERING:
-				return new ScreenTimeoutTile(this);
+                return new ScreenTimeoutTile(this);
             case QSConstants.TILE_AMBIENT_DISPLAY:
-				return new AmbientDisplayTile(this);
+                return new AmbientDisplayTile(this);
             case QSConstants.TILE_NFC:
-				return new NfcTile(this);
+                return new NfcTile(this);
             case QSConstants.TILE_HEADSUP:
-				return new HeadsUpTile(this);
+                return new HeadsUpTile(this);
             case QSConstants.TILE_REBOOT:
-				return new RebootTile(this);
+                return new RebootTile(this);
             case QSConstants.TILE_SYNC:
-				return new SyncTile(this);
+                return new SyncTile(this);
             case QSConstants.TILE_MUSIC:
-				return new MusicTile(this);
+                return new MusicTile(this);
             case QSConstants.TILE_ADB_NETWORK:
-				return new AdbOverNetworkTile(this);
+                return new AdbOverNetworkTile(this);
             case QSConstants.TILE_COMPASS:
-				return new CompassTile(this);
-            case QSConstants.TILE_LOCKSCREEN:
-				return new LockscreenToggleTile(this);
+                return new CompassTile(this);
             case QSConstants.TILE_BATTERY_SAVER:
-				return new BatterySaverTile(this);
+                return new BatterySaverTile(this);
             default:
                 throw new IllegalArgumentException("Bad tile spec: " + tileSpec);
         }
