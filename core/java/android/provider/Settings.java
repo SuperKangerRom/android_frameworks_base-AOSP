@@ -5769,10 +5769,10 @@ public final class Settings {
         public static final String HW_KEYS_ENABLED = "hw_keys_enabled";
 
         /**
-         * Enable vibration when double tapping the power button for camera
+         * Configure the vibration when double tapping the power button to launch right LS target
          * @hide
          */
-        public static final String DOUBLE_TAP_VIBRATE = "double_tap_vibrate";
+        public static final String DT2L_TARGET_VIBRATE_CONFIG = "dt2l_target_vibrate_config";
 
         /**
          *  Whether to show the music visualizer on the lock screen

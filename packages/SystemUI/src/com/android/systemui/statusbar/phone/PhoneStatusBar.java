@@ -422,7 +422,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
     boolean mExpandedVisible;
 
-    private boolean mDoubleTapVib;
+    private int mDt2lTargetVibrateConfig;
 
     private int mNavigationBarWindowState = WINDOW_STATE_SHOWING;
 
@@ -618,10 +618,10 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     Settings.System.STATUS_BAR_VRTOXIN_LOGO_SHOW),
                     false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
-					Settings.System.STATUS_BAR_VRTOXIN_LOGO_STYLE),
+                    Settings.System.STATUS_BAR_VRTOXIN_LOGO_STYLE),
                     false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
-					Settings.System.STATUS_BAR_VRTOXIN_LOGO_COLOR),
+                    Settings.System.STATUS_BAR_VRTOXIN_LOGO_COLOR),
                     false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.STATUS_BAR_VRTOXIN_LOGO_HIDE_LOGO),
@@ -670,7 +670,10 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.LOCKSCREEN_BLUR_RADIUS),
-                    false, this, UserHandle.USER_ALL);	
+                    false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.DT2L_TARGET_VIBRATE_CONFIG),
+                    false, this, UserHandle.USER_ALL);
             update();
         }
 
@@ -874,6 +877,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             mVRToxinLogoColor = Settings.System.getIntForUser(resolver,
                     Settings.System.STATUS_BAR_VRTOXIN_LOGO_COLOR, 0xFFFFFFFF, mCurrentUserId);
             showVRToxinLogo(mVRToxinLogoColor);
+
+            mDt2lTargetVibrateConfig = Settings.System.getIntForUser(resolver,
+                    Settings.System.DT2L_TARGET_VIBRATE_CONFIG, 1, mCurrentUserId);
 
             mWeatherTempStyle = Settings.System.getIntForUser(
                     resolver, Settings.System.STATUS_BAR_WEATHER_TEMP_STYLE, 0,
@@ -5392,15 +5398,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
     }
 
     private void vibrateForCameraGesture() {
-        mDoubleTapVib = Settings.System.getIntForUser(mContext.getContentResolver(),
-            Settings.System.DOUBLE_TAP_VIBRATE, 1, UserHandle.USER_CURRENT) == 1;
-
-        // Make sure to pass -1 for repeat so VibratorService doesn't stop us when going to sleep.
-        if (mDoubleTapVib) {
-            mVibrator.vibrate(new long[] { 0, 500L }, -1 /* repeat */);
-        } else {
-            mVibrator.vibrate(new long[] { 0, 0L }, -1 /* repeat */);
-        }
+        mVibrator.vibrate(new long[] { 0, mDt2lTargetVibrateConfig }, -1 /* repeat */);
     }
 
     public void onScreenTurnedOn() {
