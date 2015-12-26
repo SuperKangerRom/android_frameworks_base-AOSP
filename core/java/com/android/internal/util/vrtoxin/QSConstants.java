@@ -70,7 +70,6 @@ public class QSConstants {
     public static final String TILE_FLOATING_WINDOWS = "floating_windows";
     public static final String TILE_SLIM_FLOATS = "slim_floats";
     public static final String TILE_KERNEL_ADIUTOR = "kernel_adiutor";
-    public static final String TILE_STWEAKS = "stweaks";
     public static final String TILE_LED = "led";
     public static final String TILE_THEMES = "themes";
 
@@ -113,6 +112,10 @@ public class QSConstants {
         STATIC_TILES_AVAILABLE.add(TILE_BATTERY_SAVER);
         STATIC_TILES_AVAILABLE.add(TILE_THEMES);
         STATIC_TILES_AVAILABLE.add(TILE_NAVBAR);
+        STATIC_TILES_AVAILABLE.add(TILE_APPCIRCLEBAR);
+        STATIC_TILES_AVAILABLE.add(TILE_APPSIDEBAR);
+        STATIC_TILES_AVAILABLE.add(TILE_HWKEYS);
+        STATIC_TILES_AVAILABLE.add(TILE_SLIMPIE);
 
         TILES_AVAILABLE.addAll(STATIC_TILES_AVAILABLE);
     }
