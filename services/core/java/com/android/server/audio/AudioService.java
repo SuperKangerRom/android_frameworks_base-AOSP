@@ -568,6 +568,8 @@ public class AudioService extends IAudioService.Stub {
         return "card=" + card + ";device=" + device + ";";
     }
 
+    private boolean mVolumeKeysControlRingStream;
+
     ///////////////////////////////////////////////////////////////////////////
     // Construction
     ///////////////////////////////////////////////////////////////////////////
@@ -3486,10 +3488,16 @@ public class AudioService extends IAudioService.Stub {
                     if (DEBUG_VOL)
                         Log.v(TAG, "getActiveStreamType: Forcing STREAM_MUSIC stream active");
                     return AudioSystem.STREAM_MUSIC;
-                    } else {
+                } else {
+                    if (mVolumeKeysControlRingStream) {
                         if (DEBUG_VOL)
                             Log.v(TAG, "getActiveStreamType: Forcing STREAM_RING b/c default");
                         return AudioSystem.STREAM_RING;
+                    } else {
+                        if (DEBUG_VOL)
+                            Log.v(TAG, "getActiveStreamType: Forcing STREAM_MUSIC b/c default");
+                        return AudioSystem.STREAM_MUSIC;
+                    }
                 }
             } else if (isAfMusicActiveRecently(0)) {
                 if (DEBUG_VOL)
@@ -4585,6 +4593,8 @@ public class AudioService extends IAudioService.Stub {
             mContentResolver.registerContentObserver(Settings.System.getUriFor(
                 Settings.System.VOLUME_LINK_NOTIFICATION), false, this);
             mContentResolver.registerContentObserver(Settings.System.getUriFor(
+                Settings.System.VOLUME_KEYS_CONTROL_RING_STREAM), false, this);
+            mContentResolver.registerContentObserver(Settings.System.getUriFor(
                 Settings.System.SAFE_HEADSET_VOLUME), false, this,
                 UserHandle.USER_ALL);
         }
@@ -4601,20 +4611,22 @@ public class AudioService extends IAudioService.Stub {
                     Settings.System.SAFE_HEADSET_VOLUME))) {
                     mSafeVolumeEnabled = safeVolumeEnabled(mContentResolver);
                 } else if (uri.equals(Settings.System.getUriFor(
-                    Settings.System.MODE_RINGER_STREAMS_AFFECTED))) {
-                    if (updateRingerModeAffectedStreams()) {
-                        /*
-                         * Ensure all stream types that should be affected by ringer mode
-                         * are in the proper state.
-                         */
-                        setRingerModeInt(getRingerModeInternal(), false);
+                        Settings.System.MODE_RINGER_STREAMS_AFFECTED))) {
+                        if (updateRingerModeAffectedStreams()) {
+                           /*
+                            * Ensure all stream types that should be affected by ringer mode
+                            * are in the proper state.
+                            */
+                           setRingerModeInt(getRingerModeInternal(), false);
+                        }
+                    } else if (uri.equals(Settings.Global.getUriFor(
+                        Settings.Global.DOCK_AUDIO_MEDIA_ENABLED))) {
+                        readDockAudioSettings(mContentResolver);
                     }
-                } else if (uri.equals(Settings.Global.getUriFor(
-                    Settings.Global.DOCK_AUDIO_MEDIA_ENABLED))) {
-                    readDockAudioSettings(mContentResolver);
                 }
-            }
 
+                mVolumeKeysControlRingStream = Settings.System.getIntForUser(mContentResolver,
+                        Settings.System.VOLUME_KEYS_CONTROL_RING_STREAM, 1, UserHandle.USER_CURRENT) == 1;
                 mLinkNotificationWithVolume = Settings.System.getIntForUser(mContentResolver,
                         Settings.System.VOLUME_LINK_NOTIFICATION, 1, UserHandle.USER_CURRENT) == 1;
                 if (mLinkNotificationWithVolume) {
