@@ -236,6 +236,7 @@
   <java-symbol type="style" name="PowerMenuLeftAnimation" />
   <java-symbol type="style" name="PowerMenuRightAnimation" />
   <java-symbol type="style" name="PowerMenuRotateAnimation" />
+  <java-symbol type="style" name="PowerMenuGrowAnimation" />
 
   <!-- Stylus gestures -->
   <java-symbol type="bool" name="config_stylusGestures" />
