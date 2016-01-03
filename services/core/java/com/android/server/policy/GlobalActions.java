@@ -1627,10 +1627,12 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
     PhoneStateListener mPhoneStateListener = new PhoneStateListener() {
         @Override
         public void onServiceStateChanged(ServiceState serviceState) {
-            if (!mHasTelephony) return;
+            if (!mHasTelephony || mAirplaneModeOn == null || mAdapter == null) return;
             final boolean inAirplaneMode = serviceState.getState() == ServiceState.STATE_POWER_OFF;
             mAirplaneState = inAirplaneMode ? ToggleAction.State.On : ToggleAction.State.Off;
-            mAirplaneModeOn.updateState(mAirplaneState);
+            if (mAirplaneModeOn != null) {
+                mAirplaneModeOn.updateState(mAirplaneState);
+            }
             mAdapter.notifyDataSetChanged();
         }
     };
@@ -1684,7 +1686,9 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
                 Settings.Global.AIRPLANE_MODE_ON,
                 0) == 1;
         mAirplaneState = airplaneModeOn ? ToggleAction.State.On : ToggleAction.State.Off;
-        mAirplaneModeOn.updateState(mAirplaneState);
+        if (mAirplaneModeOn != null) {
+            mAirplaneModeOn.updateState(mAirplaneState);
+        }
     }
 
     private void onExpandedDesktopModeChanged() {
