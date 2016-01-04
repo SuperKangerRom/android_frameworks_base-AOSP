@@ -575,6 +575,8 @@ final class UiModeManagerService extends SystemService
                 Settings.System.putInt(mContext.getContentResolver(),
                         Settings.System.QS_BACKGROUND_COLOR, 0xff263238);
                 Settings.System.putInt(mContext.getContentResolver(),
+                        Settings.System.POWER_MENU_BG_COLOR, 0xffffffff);
+                Settings.System.putInt(mContext.getContentResolver(),
                         Settings.System.POWER_MENU_TEXT_COLOR, 0xff000000);
                 Settings.System.putInt(mContext.getContentResolver(),
                         Settings.System.POWER_MENU_ICON_NORMAL_COLOR, 0xff009688);
@@ -589,6 +591,8 @@ final class UiModeManagerService extends SystemService
                         Settings.System.NOTIFICATION_TEXT_COLOR, 0xffffffff);
                 Settings.System.putInt(mContext.getContentResolver(),
                         Settings.System.QS_BACKGROUND_COLOR, 0xff1b1f23);
+                Settings.System.putInt(mContext.getContentResolver(),
+                        Settings.System.POWER_MENU_BG_COLOR, 0xff1b1f23);
                 Settings.System.putInt(mContext.getContentResolver(),
                         Settings.System.POWER_MENU_TEXT_COLOR, 0xffffffff);
                 Settings.System.putInt(mContext.getContentResolver(),
@@ -606,6 +610,8 @@ final class UiModeManagerService extends SystemService
                         Settings.System.QS_BACKGROUND_COLOR, 0xff000000);
                 Settings.System.putInt(mContext.getContentResolver(),
                         Settings.System.POWER_MENU_TEXT_COLOR, 0xff1976D2);
+                Settings.System.putInt(mContext.getContentResolver(),
+                        Settings.System.POWER_MENU_BG_COLOR, 0xff000000);
                 Settings.System.putInt(mContext.getContentResolver(),
                         Settings.System.POWER_MENU_ICON_NORMAL_COLOR, 0xff00ff00);
                 Settings.System.putInt(mContext.getContentResolver(),
