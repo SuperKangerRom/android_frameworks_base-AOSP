@@ -500,7 +500,8 @@ public class RecentsView extends FrameLayout implements TaskStackView.TaskStackV
                     Settings.System.RECENT_APPS_CLEAR_ALL_ICON_COLOR, 0xffffffff);
             FrameLayout.LayoutParams params = (FrameLayout.LayoutParams)
                     mFloatingButton.getLayoutParams();
-            params.topMargin = taskStackBounds.top;
+            params.topMargin = taskStackBounds.top + mContext.getResources().
+                    getDimensionPixelSize(R.dimen.floating_action_button_margin_top);
 
             mFloatingButton.getBackground().setColorFilter(bgColor, Mode.MULTIPLY);
             mClearRecents.getDrawable().setTint(getClearRecentsIconColor(bgColor));
