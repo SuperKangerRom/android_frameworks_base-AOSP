@@ -15178,6 +15178,9 @@ public class View implements Drawable.Callback, KeyEvent.Callback,
                             mOverlay.getOverlayView().draw(canvas);
                         }
                     } else {
+                        if (mAttachInfo.mHardwareRenderer != null) {
+                            canvas.setHardwareRenderer(mAttachInfo.mHardwareRenderer);
+                        }
                         draw(canvas);
                     }
                 }
