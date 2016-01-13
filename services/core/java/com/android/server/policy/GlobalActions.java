@@ -316,12 +316,8 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
                 PowerMenuHelper.getPowerMenuConfig(mContext);
 
         mItems = new ArrayList<Action>();
+
         for (final ActionConfig config : powerMenuConfig) {
-
-            // On-The-Go, if enabled
-            boolean showOnTheGo = Settings.System.getBoolean(mContext.getContentResolver(),
-                    Settings.System.POWER_MENU_ONTHEGO_ENABLED, false);
-
             if (config.getClickAction().equals(PowerMenuConstants.ACTION_POWER_OFF)) {
                 mItems.add(getPowerAction());
             } else if (config.getClickAction().equals(PowerMenuConstants.ACTION_REBOOT)) {
@@ -363,9 +359,7 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
             } else if (config.getClickAction().equals(PowerMenuConstants.ACTION_SCREENSHOT)) {
                 mItems.add(getScreenshotAction());
             } else if (config.getClickAction().equals(PowerMenuConstants.ACTION_ONTHEGO)) {
-                if (showOnTheGo) {
                     mItems.add(getOnTheGoAction());
-                }
             } else if (config.getClickAction().equals(PowerMenuConstants.ACTION_SOUND) && mShowSilentToggle) {
                 if (!mHasVibrator) {
                     mSilentModeAction = new SilentModeToggleAction();
