@@ -56,6 +56,7 @@ import com.android.systemui.qs.tiles.HeadsUpTile;
 import com.android.systemui.qs.tiles.HotspotTile;
 import com.android.systemui.qs.tiles.HWKeysTile;
 import com.android.systemui.qs.tiles.IntentTile;
+import com.android.systemui.qs.tiles.KernelAdiutorTile;
 import com.android.systemui.qs.tiles.LocationTile;
 import com.android.systemui.qs.tiles.MusicTile;
 import com.android.systemui.qs.tiles.LockscreenToggleTile;
@@ -349,6 +350,8 @@ public class QSTileHost implements QSTile.Host {
                 return new FloatingWindowsTile(this);
             case QSConstants.TILE_SLIM_FLOATS:
                 return new SlimFloatsTile(this);
+            case QSConstants.TILE_KERNEL_ADIUTOR:
+                return new KernelAdiutorTile(this);
             default:
                 throw new IllegalArgumentException("Bad tile spec: " + tileSpec);
         }
