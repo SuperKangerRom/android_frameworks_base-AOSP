@@ -244,11 +244,6 @@
   <java-symbol type="style" name="PowerMenuRightAnimation" />
   <java-symbol type="style" name="PowerMenuRotateAnimation" />
   <java-symbol type="style" name="PowerMenuGrowAnimation" />
-  <java-symbol type="style" name="PowerMenuXylonAnimation" />
-  <java-symbol type="style" name="PowerMenuTranslucentAnimation" />
-  <java-symbol type="style" name="PowerMenuTnAnimation" />
-  <java-symbol type="style" name="PowerMenuflyAnimation" />
-  <java-symbol type="style" name="PowerMenuCardAnimation" />
 
   <!-- Stylus gestures -->
   <java-symbol type="bool" name="config_stylusGestures" />
