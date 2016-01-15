@@ -977,6 +977,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             if (mClockLocation == Clock.STYLE_CLOCK_CENTER && mState == StatusBarState.KEYGUARD) {
                 mClockView.setVisibility(View.GONE);
             }
+            if (mClockLocation == Clock.STYLE_CLOCK_CENTER) {
+                setCenterClockVisibility();
+            }
             setClockAndDateStatus();
             mClockController.updateClockView(mClockView);
         }
@@ -3073,10 +3076,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         if (mClockView != null && centerClock) {
             mClockView.setVisibility(centerClock && !forceHideByNumberOfIcons
                     ? View.VISIBLE : View.GONE);
-            if (mTicking == true) {
-                mClockView.setVisibility(centerClock && !forceHideByNumberOfIcons
-                        ? View.GONE : View.GONE);
-            }
         }
     }
 
@@ -4306,34 +4305,15 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         @Override
         public void tickerDone() {
             if (!mTickerEnabled) return;
-            final ContentResolver resolver = mContext.getContentResolver();
             mStatusBarContents.setVisibility(View.VISIBLE);
             mStatusBarContents.startAnimation(loadAnim(com.android.internal.R.anim.push_down_in,
                     null));
             mTickerView.setVisibility(View.GONE);
             mTickerView.startAnimation(loadAnim(com.android.internal.R.anim.push_down_out,
                         mTickingDoneListener));
-
-            final boolean centerClock = Settings.System.getInt(resolver,
-                    Settings.System.STATUS_BAR_CLOCK, 0) == 2;
-
-            final boolean forceHide = Settings.System.getInt(resolver,
-                    Settings.System.STATUS_BAR_CENTER_CLOCK_HIDE, 1) == 1;
-            final int maxAllowedIcons = Settings.System.getInt(resolver,
-                    Settings.System.STATUS_BAR_CENTER_CLOCK_NUMBER_OF_NOTIFICATION_ICONS, 4);
-            boolean forceHideByNumberOfIcons = false;
-            int currentVisibleNotificationIcons = 0;
-
-            if (mNotificationIcons != null) {
-                currentVisibleNotificationIcons = mNotificationIcons.getChildCount();
-            }
-            if (forceHide && currentVisibleNotificationIcons >= maxAllowedIcons) {
-                forceHideByNumberOfIcons = true;
-            }
-            if (mClockView != null && centerClock) {
-                mClockView.setVisibility(centerClock && !forceHideByNumberOfIcons
-                        ? View.VISIBLE : View.GONE);
-            }
+            mClockView.setVisibility(View.VISIBLE);
+            mClockView.startAnimation(loadAnim(com.android.internal.R.anim.push_down_in, null));
+            setCenterClockVisibility();
         }
 
         public void tickerHalting() {
@@ -4341,9 +4321,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             if (mStatusBarContents.getVisibility() != View.VISIBLE) {
                 mStatusBarContents.setVisibility(View.VISIBLE);
                 mStatusBarContents
-                    .startAnimation(loadAnim(com.android.internal.R.anim.fade_in, null));
+                        .startAnimation(loadAnim(com.android.internal.R.anim.fade_in, null));
                 mClockView.setVisibility(View.VISIBLE);
-                mClockView.startAnimation(loadAnim(com.android.internal.R.anim.push_down_in, null));
+                mClockView.startAnimation(loadAnim(com.android.internal.R.anim.fade_in, null));
             }
             mTickerView.setVisibility(View.GONE);
             // we do not animate the ticker away at this point, just get rid of it (b/6992707)

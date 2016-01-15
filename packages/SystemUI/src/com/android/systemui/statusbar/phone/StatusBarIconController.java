@@ -369,6 +369,7 @@ public class StatusBarIconController {
         } else {
             animateShow(mSystemIconArea, animate);
             animateShow(mClockView, animate);
+            mPhoneStatusBar.setCenterClockVisibility();
         }
     }
 
