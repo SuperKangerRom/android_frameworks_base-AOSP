@@ -42,6 +42,7 @@ import android.widget.ImageView;
 import android.widget.TextClock;
 import android.widget.TextView;
 
+import com.android.internal.util.vrtoxin.FontHelper;
 import com.android.internal.util.vrtoxin.WeatherController;
 import com.android.internal.util.vrtoxin.WeatherControllerImpl;
 import com.android.internal.util.vrtoxin.ImageHelper;
@@ -74,6 +75,7 @@ public class KeyguardStatusView extends GridLayout implements
     private Drawable mWeatherConditionDrawable;
     private TextView mWeatherCurrentTemp;
     private TextView mWeatherConditionText;
+    private TextView noWeatherInfo;
     private boolean mShowWeather;
     private int mIconNameValue = 0;
 
@@ -174,6 +176,7 @@ public class KeyguardStatusView extends GridLayout implements
         mWeatherConditionImage = (ImageView) findViewById(R.id.weather_image);
         mWeatherCurrentTemp = (TextView) findViewById(R.id.current_temp);
         mWeatherConditionText = (TextView) findViewById(R.id.condition);
+        noWeatherInfo = (TextView) findViewById(R.id.no_weather_info_text);
         refresh();
         updateOwnerInfo();
         updateClockColor();
@@ -198,17 +201,14 @@ public class KeyguardStatusView extends GridLayout implements
                 getResources().getDimensionPixelSize(R.dimen.widget_label_font_size));
     }
 
-    private int getLockClockFont() {
-        return Settings.System.getIntForUser(mContext.getContentResolver(),
-                Settings.System.LOCK_CLOCK_FONTS, 0, UserHandle.USER_CURRENT);
-    }
-
     public void refreshTime() {
         mDateView.setFormat24Hour(Patterns.dateView);
         mDateView.setFormat12Hour(Patterns.dateView);
 
         mClockView.setFormat12Hour(Patterns.clockView12);
         mClockView.setFormat24Hour(Patterns.clockView24);
+
+        updateLockScreenFontStyle();
     }
 
     private void refresh() {
@@ -374,62 +374,6 @@ public class KeyguardStatusView extends GridLayout implements
         mWeatherCurrentTemp.setTextColor(secondaryTextColor);
 
         boolean isPrimary = UserHandle.getCallingUserId() == UserHandle.USER_OWNER;
-        int lockClockFont = isPrimary ? getLockClockFont() : 0;
-
-        if (lockClockFont == 0) {
-            mClockView.setTypeface(Typeface.create("sans-serif", Typeface.NORMAL));
-        }
-        if (lockClockFont == 1) {
-            mClockView.setTypeface(Typeface.create("sans-serif", Typeface.BOLD));
-        }
-        if (lockClockFont == 2) {
-            mClockView.setTypeface(Typeface.create("sans-serif", Typeface.ITALIC));
-        }
-        if (lockClockFont == 3) {
-            mClockView.setTypeface(Typeface.create("sans-serif", Typeface.BOLD_ITALIC));
-        }
-        if (lockClockFont == 4) {
-            mClockView.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
-        }
-        if (lockClockFont == 5) {
-            mClockView.setTypeface(Typeface.create("sans-serif-light", Typeface.ITALIC));
-        }
-        if (lockClockFont == 6) {
-            mClockView.setTypeface(Typeface.create("sans-serif-thin", Typeface.NORMAL));
-        }
-        if (lockClockFont == 7) {
-            mClockView.setTypeface(Typeface.create("sans-serif-thin", Typeface.ITALIC));
-        }
-        if (lockClockFont == 8) {
-            mClockView.setTypeface(Typeface.create("sans-serif-condensed", Typeface.NORMAL));
-        }
-        if (lockClockFont == 9) {
-            mClockView.setTypeface(Typeface.create("sans-serif-condensed", Typeface.BOLD));
-        }
-        if (lockClockFont == 10) {
-            mClockView.setTypeface(Typeface.create("sans-serif-condensed", Typeface.ITALIC));
-        }
-        if (lockClockFont == 11) {
-            mClockView.setTypeface(Typeface.create("sans-serif-condensed", Typeface.BOLD_ITALIC));
-        }
-        if (lockClockFont == 12) {
-            mClockView.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
-        }
-        if (lockClockFont == 13) {
-            mClockView.setTypeface(Typeface.create("sans-serif-medium", Typeface.ITALIC));
-        }
-        if (lockClockFont == 14) {
-            mClockView.setTypeface(Typeface.create("sans-serif-black", Typeface.NORMAL));
-        }
-        if (lockClockFont == 15) {
-            mClockView.setTypeface(Typeface.create("sans-serif-black", Typeface.ITALIC));
-        }
-        if (lockClockFont == 16) {
-            mClockView.setTypeface(Typeface.create("sans-serif-condensed-light", Typeface.NORMAL));
-        }
-        if (lockClockFont == 17) {
-            mClockView.setTypeface(Typeface.create("sans-serif-condensed-light", Typeface.ITALIC));
-        }
 
         if (mIconNameValue != iconNameValue) {
             mIconNameValue = iconNameValue;
@@ -451,6 +395,200 @@ public class KeyguardStatusView extends GridLayout implements
             mWeatherConditionImage.setImageBitmap(coloredWeatherIcon);
         } else {
             mWeatherConditionImage.setImageDrawable(weatherIcon);
+        }
+    }
+
+    private void updateLockScreenFontStyle() {
+        final int mLockScreenFontStyle = Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.LOCK_CLOCK_FONTS, FontHelper.FONT_NORMAL);
+
+        getFontStyle(mLockScreenFontStyle);
+    }
+
+    public void getFontStyle(int font) {
+        switch (font) {
+            case FontHelper.FONT_NORMAL:
+            default:
+                mAlarmStatusView.setTypeface(Typeface.create("sans-serif", Typeface.NORMAL));
+                mDateView.setTypeface(Typeface.create("sans-serif", Typeface.NORMAL));
+                mClockView.setTypeface(Typeface.create("sans-serif", Typeface.NORMAL));
+                noWeatherInfo.setTypeface(Typeface.create("sans-serif", Typeface.NORMAL));
+                mWeatherCity.setTypeface(Typeface.create("sans-serif", Typeface.NORMAL));
+                mWeatherConditionText.setTypeface(Typeface.create("sans-serif", Typeface.NORMAL));
+                mOwnerInfo.setTypeface(Typeface.create("sans-serif", Typeface.NORMAL));
+                mWeatherCurrentTemp.setTypeface(Typeface.create("sans-serif", Typeface.NORMAL));
+                break;
+            case FontHelper.FONT_ITALIC:
+                mAlarmStatusView.setTypeface(Typeface.create("sans-serif", Typeface.BOLD));
+                mDateView.setTypeface(Typeface.create("sans-serif", Typeface.BOLD));
+                mClockView.setTypeface(Typeface.create("sans-serif", Typeface.BOLD));
+                noWeatherInfo.setTypeface(Typeface.create("sans-serif", Typeface.BOLD));
+                mWeatherCity.setTypeface(Typeface.create("sans-serif", Typeface.BOLD));
+                mWeatherConditionText.setTypeface(Typeface.create("sans-serif", Typeface.BOLD));
+                mOwnerInfo.setTypeface(Typeface.create("sans-serif", Typeface.BOLD));
+                mWeatherCurrentTemp.setTypeface(Typeface.create("sans-serif", Typeface.BOLD));
+                break;
+            case FontHelper.FONT_BOLD:
+                mAlarmStatusView.setTypeface(Typeface.create("sans-serif", Typeface.ITALIC));
+                mDateView.setTypeface(Typeface.create("sans-serif", Typeface.ITALIC));
+                mClockView.setTypeface(Typeface.create("sans-serif", Typeface.ITALIC));
+                noWeatherInfo.setTypeface(Typeface.create("sans-serif", Typeface.ITALIC));
+                mWeatherCity.setTypeface(Typeface.create("sans-serif", Typeface.ITALIC));
+                mWeatherConditionText.setTypeface(Typeface.create("sans-serif", Typeface.ITALIC));
+                mOwnerInfo.setTypeface(Typeface.create("sans-serif", Typeface.ITALIC));
+                mWeatherCurrentTemp.setTypeface(Typeface.create("sans-serif", Typeface.ITALIC));
+                break;
+            case FontHelper.FONT_BOLD_ITALIC:
+                mAlarmStatusView.setTypeface(Typeface.create("sans-serif", Typeface.BOLD_ITALIC));
+                mDateView.setTypeface(Typeface.create("sans-serif", Typeface.BOLD_ITALIC));
+                mClockView.setTypeface(Typeface.create("sans-serif", Typeface.BOLD_ITALIC));
+                noWeatherInfo.setTypeface(Typeface.create("sans-serif", Typeface.BOLD_ITALIC));
+                mWeatherCity.setTypeface(Typeface.create("sans-serif", Typeface.BOLD_ITALIC));
+                mWeatherConditionText.setTypeface(Typeface.create("sans-serif", Typeface.BOLD_ITALIC));
+                mOwnerInfo.setTypeface(Typeface.create("sans-serif", Typeface.BOLD_ITALIC));
+                mWeatherCurrentTemp.setTypeface(Typeface.create("sans-serif", Typeface.BOLD_ITALIC));
+                break;
+            case FontHelper.FONT_LIGHT:
+                mAlarmStatusView.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
+                mDateView.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
+                mClockView.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
+                noWeatherInfo.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
+                mWeatherCity.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
+                mWeatherConditionText.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
+                mOwnerInfo.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
+                mWeatherCurrentTemp.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
+                break;
+            case FontHelper.FONT_LIGHT_ITALIC:
+                mAlarmStatusView.setTypeface(Typeface.create("sans-serif-light", Typeface.ITALIC));
+                mDateView.setTypeface(Typeface.create("sans-serif-light", Typeface.ITALIC));
+                mClockView.setTypeface(Typeface.create("sans-serif-light", Typeface.ITALIC));
+                noWeatherInfo.setTypeface(Typeface.create("sans-serif-light", Typeface.ITALIC));
+                mWeatherCity.setTypeface(Typeface.create("sans-serif-light", Typeface.ITALIC));
+                mWeatherConditionText.setTypeface(Typeface.create("sans-serif-light", Typeface.ITALIC));
+                mOwnerInfo.setTypeface(Typeface.create("sans-serif-light", Typeface.ITALIC));
+                mWeatherCurrentTemp.setTypeface(Typeface.create("sans-serif-light", Typeface.ITALIC));
+                break;
+            case FontHelper.FONT_THIN:
+                mAlarmStatusView.setTypeface(Typeface.create("sans-serif-thin", Typeface.NORMAL));
+                mDateView.setTypeface(Typeface.create("sans-serif-thin", Typeface.NORMAL));
+                mClockView.setTypeface(Typeface.create("sans-serif-thin", Typeface.NORMAL));
+                noWeatherInfo.setTypeface(Typeface.create("sans-serif-thin", Typeface.NORMAL));
+                mWeatherCity.setTypeface(Typeface.create("sans-serif-thin", Typeface.NORMAL));
+                mWeatherConditionText.setTypeface(Typeface.create("sans-serif-thin", Typeface.NORMAL));
+                mOwnerInfo.setTypeface(Typeface.create("sans-serif-thin", Typeface.NORMAL));
+                mWeatherCurrentTemp.setTypeface(Typeface.create("sans-serif-thin", Typeface.NORMAL));
+                break;
+            case FontHelper.FONT_THIN_ITALIC:
+                mAlarmStatusView.setTypeface(Typeface.create("sans-serif-thin", Typeface.ITALIC));
+                mDateView.setTypeface(Typeface.create("sans-serif-thin", Typeface.ITALIC));
+                mClockView.setTypeface(Typeface.create("sans-serif-thin", Typeface.ITALIC));
+                noWeatherInfo.setTypeface(Typeface.create("sans-serif-thin", Typeface.ITALIC));
+                mWeatherCity.setTypeface(Typeface.create("sans-serif-thin", Typeface.ITALIC));
+                mWeatherConditionText.setTypeface(Typeface.create("sans-serif-thin", Typeface.ITALIC));
+                mOwnerInfo.setTypeface(Typeface.create("sans-serif-thin", Typeface.ITALIC));
+                mWeatherCurrentTemp.setTypeface(Typeface.create("sans-serif-thin", Typeface.ITALIC));
+                break;
+            case FontHelper.FONT_CONDENSED:
+                mAlarmStatusView.setTypeface(Typeface.create("sans-serif-condensed", Typeface.NORMAL));
+                mDateView.setTypeface(Typeface.create("sans-serif-condensed", Typeface.NORMAL));
+                mClockView.setTypeface(Typeface.create("sans-serif-condensed", Typeface.NORMAL));
+                noWeatherInfo.setTypeface(Typeface.create("sans-serif-condensed", Typeface.NORMAL));
+                mWeatherCity.setTypeface(Typeface.create("sans-serif-condensed", Typeface.NORMAL));
+                mWeatherConditionText.setTypeface(Typeface.create("sans-serif-condensed", Typeface.NORMAL));
+                mOwnerInfo.setTypeface(Typeface.create("sans-serif-condensed", Typeface.NORMAL));
+                mWeatherCurrentTemp.setTypeface(Typeface.create("sans-serif-condensed", Typeface.NORMAL));
+                break;
+            case FontHelper.FONT_CONDENSED_ITALIC:
+                mAlarmStatusView.setTypeface(Typeface.create("sans-serif-condensed", Typeface.ITALIC));
+                mDateView.setTypeface(Typeface.create("sans-serif-condensed", Typeface.ITALIC));
+                mClockView.setTypeface(Typeface.create("sans-serif-condensed", Typeface.ITALIC));
+                noWeatherInfo.setTypeface(Typeface.create("sans-serif-condensed", Typeface.ITALIC));
+                mWeatherCity.setTypeface(Typeface.create("sans-serif-condensed", Typeface.ITALIC));
+                mWeatherConditionText.setTypeface(Typeface.create("sans-serif-condensed", Typeface.ITALIC));
+                mOwnerInfo.setTypeface(Typeface.create("sans-serif-condensed", Typeface.ITALIC));
+                mWeatherCurrentTemp.setTypeface(Typeface.create("sans-serif-condensed", Typeface.ITALIC));
+                break;
+            case FontHelper.FONT_CONDENSED_LIGHT:
+                mAlarmStatusView.setTypeface(Typeface.create("sans-serif-condensed-light", Typeface.NORMAL));
+                mDateView.setTypeface(Typeface.create("sans-serif-condensed-light", Typeface.NORMAL));
+                mClockView.setTypeface(Typeface.create("sans-serif-condensed-light", Typeface.NORMAL));
+                noWeatherInfo.setTypeface(Typeface.create("sans-serif-condensed-light", Typeface.NORMAL));
+                mWeatherCity.setTypeface(Typeface.create("sans-serif-condensed-light", Typeface.NORMAL));
+                mWeatherConditionText.setTypeface(Typeface.create("sans-serif-condensed-light", Typeface.NORMAL));
+                mOwnerInfo.setTypeface(Typeface.create("sans-serif-condensed-light", Typeface.NORMAL));
+                mWeatherCurrentTemp.setTypeface(Typeface.create("sans-serif-condensed-light", Typeface.NORMAL));
+                break;
+            case FontHelper.FONT_CONDENSED_LIGHT_ITALIC:
+                mClockView.setTypeface(Typeface.create("sans-serif-condensed-light", Typeface.ITALIC));
+                mAlarmStatusView.setTypeface(Typeface.create("sans-serif-condensed-light", Typeface.ITALIC));
+                mDateView.setTypeface(Typeface.create("sans-serif-condensed-light", Typeface.ITALIC));
+                mClockView.setTypeface(Typeface.create("sans-serif-condensed-light", Typeface.ITALIC));
+                noWeatherInfo.setTypeface(Typeface.create("sans-serif-condensed-light", Typeface.ITALIC));
+                mWeatherCity.setTypeface(Typeface.create("sans-serif-condensed-light", Typeface.ITALIC));
+                mWeatherConditionText.setTypeface(Typeface.create("sans-serif-condensed-light", Typeface.ITALIC));
+                mOwnerInfo.setTypeface(Typeface.create("sans-serif-condensed-light", Typeface.ITALIC));
+                mWeatherCurrentTemp.setTypeface(Typeface.create("sans-serif-condensed-light", Typeface.ITALIC));
+                break;
+            case FontHelper.FONT_CONDENSED_BOLD:
+                mAlarmStatusView.setTypeface(Typeface.create("sans-serif-condensed", Typeface.BOLD));
+                mDateView.setTypeface(Typeface.create("sans-serif-condensed", Typeface.BOLD));
+                mClockView.setTypeface(Typeface.create("sans-serif-condensed", Typeface.BOLD));
+                noWeatherInfo.setTypeface(Typeface.create("sans-serif-condensed", Typeface.BOLD));
+                mWeatherCity.setTypeface(Typeface.create("sans-serif-condensed", Typeface.BOLD));
+                mWeatherConditionText.setTypeface(Typeface.create("sans-serif-condensed", Typeface.BOLD));
+                mOwnerInfo.setTypeface(Typeface.create("sans-serif-condensed", Typeface.BOLD));
+                mWeatherCurrentTemp.setTypeface(Typeface.create("sans-serif-condensed", Typeface.BOLD));
+                break;
+            case FontHelper.FONT_CONDENSED_BOLD_ITALIC:
+                mAlarmStatusView.setTypeface(Typeface.create("sans-serif-condensed", Typeface.BOLD_ITALIC));
+                mDateView.setTypeface(Typeface.create("sans-serif-condensed", Typeface.BOLD_ITALIC));
+                mClockView.setTypeface(Typeface.create("sans-serif-condensed", Typeface.BOLD_ITALIC));
+                noWeatherInfo.setTypeface(Typeface.create("sans-serif-condensed", Typeface.BOLD_ITALIC));
+                mWeatherCity.setTypeface(Typeface.create("sans-serif-condensed", Typeface.BOLD_ITALIC));
+                mWeatherConditionText.setTypeface(Typeface.create("sans-serif-condensed", Typeface.BOLD_ITALIC));
+                mOwnerInfo.setTypeface(Typeface.create("sans-serif-condensed", Typeface.BOLD_ITALIC));
+                mWeatherCurrentTemp.setTypeface(Typeface.create("sans-serif-condensed", Typeface.BOLD_ITALIC));
+                break;
+            case FontHelper.FONT_MEDIUM:
+                mAlarmStatusView.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
+                mDateView.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
+                mClockView.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
+                noWeatherInfo.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
+                mWeatherCity.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
+                mWeatherConditionText.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
+                mOwnerInfo.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
+                mWeatherCurrentTemp.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
+                break;
+            case FontHelper.FONT_MEDIUM_ITALIC:
+                mAlarmStatusView.setTypeface(Typeface.create("sans-serif-medium", Typeface.ITALIC));
+                mDateView.setTypeface(Typeface.create("sans-serif-medium", Typeface.ITALIC));
+                mClockView.setTypeface(Typeface.create("sans-serif-medium", Typeface.ITALIC));
+                noWeatherInfo.setTypeface(Typeface.create("sans-serif-medium", Typeface.ITALIC));
+                mWeatherCity.setTypeface(Typeface.create("sans-serif-medium", Typeface.ITALIC));
+                mWeatherConditionText.setTypeface(Typeface.create("sans-serif-medium", Typeface.ITALIC));
+                mOwnerInfo.setTypeface(Typeface.create("sans-serif-medium", Typeface.ITALIC));
+                mWeatherCurrentTemp.setTypeface(Typeface.create("sans-serif-medium", Typeface.ITALIC));
+                break;
+            case FontHelper.FONT_BLACK:
+                mAlarmStatusView.setTypeface(Typeface.create("sans-serif-black", Typeface.NORMAL));
+                mDateView.setTypeface(Typeface.create("sans-serif-black", Typeface.NORMAL));
+                mClockView.setTypeface(Typeface.create("sans-serif-black", Typeface.NORMAL));
+                noWeatherInfo.setTypeface(Typeface.create("sans-serif-black", Typeface.NORMAL));
+                mWeatherCity.setTypeface(Typeface.create("sans-serif-black", Typeface.NORMAL));
+                mWeatherConditionText.setTypeface(Typeface.create("sans-serif-black", Typeface.NORMAL));
+                mOwnerInfo.setTypeface(Typeface.create("sans-serif-black", Typeface.NORMAL));
+                mWeatherCurrentTemp.setTypeface(Typeface.create("sans-serif-black", Typeface.NORMAL));
+                break;
+            case FontHelper.FONT_BLACK_ITALIC:
+                mAlarmStatusView.setTypeface(Typeface.create("sans-serif-black", Typeface.ITALIC));
+                mDateView.setTypeface(Typeface.create("sans-serif-black", Typeface.ITALIC));
+                mClockView.setTypeface(Typeface.create("sans-serif-black", Typeface.ITALIC));
+                noWeatherInfo.setTypeface(Typeface.create("sans-serif-black", Typeface.ITALIC));
+                mWeatherCity.setTypeface(Typeface.create("sans-serif-black", Typeface.ITALIC));
+                mWeatherConditionText.setTypeface(Typeface.create("sans-serif-black", Typeface.ITALIC));
+                mOwnerInfo.setTypeface(Typeface.create("sans-serif-black", Typeface.ITALIC));
+                mWeatherCurrentTemp.setTypeface(Typeface.create("sans-serif-black", Typeface.ITALIC));
+                break;
         }
     }
 
