@@ -63,6 +63,7 @@ import android.os.UserHandle;
 import android.os.WorkSource;
 import android.provider.Settings;
 import android.service.dreams.DreamManagerInternal;
+import android.telephony.TelephonyManager;
 import android.util.EventLog;
 import android.util.Slog;
 import android.util.TimeUtils;
@@ -177,6 +178,8 @@ public final class PowerManagerService extends SystemService
     private SettingsObserver mSettingsObserver;
     private DreamManagerInternal mDreamManager;
     private Light mAttentionLight;
+
+    private TelephonyManager mTelephonyManager;
 
     private final Object mLock = new Object();
 
@@ -3228,6 +3231,14 @@ public final class PowerManagerService extends SystemService
             } finally {
                 Binder.restoreCallingIdentity(ident);
             }
+        }
+
+        TelephonyManager getTelephonyManager() {
+            if (mTelephonyManager == null) {
+                mTelephonyManager = (TelephonyManager)mContext.getSystemService(
+                        Context.TELEPHONY_SERVICE);
+            }
+            return mTelephonyManager;
         }
 
         @Override // Binder call
