@@ -16,6 +16,8 @@
 
 package com.android.internal.util.vrtoxin;
 
+import com.android.internal.util.vrtoxin.ActionConstants;
+
 public class ActionConfig {
 
     private String mClickAction;
@@ -28,8 +30,14 @@ public class ActionConfig {
                     String longpressAction, String longpressActionDescription, String iconUri) {
         mClickAction = clickAction;
         mClickActionDescription = clickActionDescription;
-        mLongpressAction = longpressAction;
-        mLongpressActionDescription = longpressActionDescription;
+        if (mClickAction.equals(ActionConstants.ACTION_HOME)) {
+            // Google Now / Now on Tap Home longpress action
+            mLongpressAction = ActionConstants.ACTION_NOW_ON_TAP;
+            mLongpressActionDescription = ActionConstants.ACTION_GOOGLE_NOW_DESC;
+        } else {
+            mLongpressAction = longpressAction;
+            mLongpressActionDescription = longpressActionDescription;
+        }
         mIconUri = iconUri;
     }
 
@@ -67,11 +75,21 @@ public class ActionConfig {
     }
 
     public void setLongpressAction(String action) {
-        mLongpressAction = action;
+        if (mClickAction.equals(ActionConstants.ACTION_HOME)) {
+            // Google Now / Now on Tap Home longpress action
+            mLongpressAction = ActionConstants.ACTION_NOW_ON_TAP;
+        } else {
+            mLongpressAction = action;
+        }
     }
 
     public void setLongpressActionDescription(String description) {
-        mLongpressActionDescription = description;
+        if (mClickAction.equals(ActionConstants.ACTION_HOME)) {
+            // Google Now / Now on Tap Home longpress action
+            mLongpressActionDescription = ActionConstants.ACTION_GOOGLE_NOW_DESC;
+        } else {
+            mLongpressActionDescription = description;
+        }
     }
 
     public void setIcon(String iconUri) {
