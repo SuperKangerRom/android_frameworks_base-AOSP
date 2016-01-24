@@ -167,4 +167,3 @@ public class ColorHelper {
         return cf;
     }
 }
-

@@ -4392,37 +4392,23 @@ public final class Settings {
         public static final String NAVIGATION_BAR_MENU_LOCATION = "navigation_bar_menu_location";
 
         /**
-         * Colorize the navigation bar buttons
-         * 0: All
-         * 1: System icons
-         * 2: System icons and custom user icons
-         * 3: Disabled
-         * default: 0
-         * @hide
-         */
-        public static final String NAVIGATION_BAR_ICON_COLOR_MODE = "navigation_bar_icon_color_mode";
-
-        /**
-         * How to colorize the navigation bar button ripple
-         * 0: Auto
-         * 1: Custom color
-         * 2: Disabled
-         * default: 2
-         * @hide
-         */
-        public static final String NAVIGATION_BAR_BUTTON_RIPPLE_COLOR_MODE = "navigation_bar_button_ripple_color_mode";
-
-        /**
          * Navigation bar button color
          * @hide
          */
-        public static final String NAVIGATION_BAR_ICON_COLOR = "navigation_bar_icon_color";
+        public static final String NAVIGATION_BAR_BUTTON_TINT = "navigation_bar_button_tint";
 
         /**
-         * Navigation bar button ripple color
+         * Option To Colorize Navigation bar buttons in different modes
+         * 0 = all, 1 = system icons, 2 = system icons + custom user icons
          * @hide
          */
-        public static final String NAVIGATION_BAR_BUTTON_RIPPLE_COLOR = "navigation_bar_button_ripple_color";
+        public static final String NAVIGATION_BAR_BUTTON_TINT_MODE = "navigation_bar_button_tint_mode";
+
+        /**
+         * Navigation bar glow color
+         * @hide
+         */
+        public static final String NAVIGATION_BAR_GLOW_TINT = "navigation_bar_glow_tint";
 
         /**
          * Whether to dim the navigation bar icons after inactivity

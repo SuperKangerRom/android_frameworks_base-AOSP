@@ -590,17 +590,15 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     Settings.System.NAVIGATION_BAR_MENU_LOCATION),
                     false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.NAVIGATION_BAR_ICON_COLOR_MODE),
+                    Settings.System.NAVIGATION_BAR_BUTTON_TINT),
                     false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.NAVIGATION_BAR_BUTTON_RIPPLE_COLOR_MODE),
+                    Settings.System.NAVIGATION_BAR_BUTTON_TINT_MODE),
                     false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.NAVIGATION_BAR_ICON_COLOR),
+                    Settings.System.NAVIGATION_BAR_GLOW_TINT),
                     false, this, UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.NAVIGATION_BAR_BUTTON_RIPPLE_COLOR),
-                    false, this, UserHandle.USER_ALL);
+
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.QS_NUM_TILE_COLUMNS),
                     false, this, UserHandle.USER_ALL);
@@ -788,13 +786,11 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                 || uri.equals(Settings.System.getUriFor(
                     Settings.System.NAVIGATION_BAR_MENU_LOCATION))
                 || uri.equals(Settings.System.getUriFor(
-                    Settings.System.NAVIGATION_BAR_ICON_COLOR_MODE))
+                    Settings.System.NAVIGATION_BAR_BUTTON_TINT))
                 || uri.equals(Settings.System.getUriFor(
-                    Settings.System.NAVIGATION_BAR_BUTTON_RIPPLE_COLOR_MODE))
+                    Settings.System.NAVIGATION_BAR_BUTTON_TINT_MODE))
                 || uri.equals(Settings.System.getUriFor(
-                    Settings.System.NAVIGATION_BAR_ICON_COLOR))
-                || uri.equals(Settings.System.getUriFor(
-                    Settings.System.NAVIGATION_BAR_BUTTON_RIPPLE_COLOR))) {
+                    Settings.System.NAVIGATION_BAR_GLOW_TINT))) {
                 if (mNavigationBarView != null) {
                     mNavigationBarView.recreateNavigationBar();
                     prepareNavigationBarView();

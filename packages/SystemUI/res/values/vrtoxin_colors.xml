@@ -18,6 +18,9 @@
     
     <color name="qs_background_drawable_color">#FFFFFFFF</color>
 
+    <!-- Navigation bar -->
+    <color name="navigationbar_button_default_color">#FFFFFFFF</color>
+
     <!-- Pie controls -->
     <color name="pie_overlay_color">#ff000000</color>
     <color name="pie_snap_color">#ff009688</color>

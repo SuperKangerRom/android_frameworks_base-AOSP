@@ -16,8 +16,6 @@
 
 package com.android.systemui.statusbar.policy;
 
-import android.animation.Animator;
-import android.animation.ObjectAnimator;
 import android.app.ActivityManager;
 import android.app.ActivityManagerNative;
 import android.app.IActivityManager;
@@ -37,7 +35,6 @@ import android.os.SystemClock;
 import android.os.UserHandle;
 import android.provider.Settings;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.HapticFeedbackConstants;
 import android.view.InputDevice;
@@ -64,11 +61,6 @@ import static android.view.accessibility.AccessibilityNodeInfo.ACTION_CLICK;
 import static android.view.accessibility.AccessibilityNodeInfo.ACTION_LONG_CLICK;
 
 public class KeyButtonView extends ImageView {
-    private static final String TAG = "StatusBar.KeyButtonView";
-    private static final boolean DEBUG = false;
-
-    // TODO: Get rid of this
-    public static final float DEFAULT_QUIESCENT_ALPHA = 1f;
 
     private int mContentDescriptionRes;
     private long mDownTime;
@@ -76,13 +68,10 @@ public class KeyButtonView extends ImageView {
     String mClickAction;
     String mLongpressAction;
     private int mTouchSlop;
-    private float mDrawingAlpha = 1f;
-    private float mQuiescentAlpha = DEFAULT_QUIESCENT_ALPHA;
     boolean mSupportsLongpress = false;
     boolean mIsLongpressed = false;
     private AudioManager mAudioManager;
     private boolean mGestureAborted;
-    private Animator mAnimateToQuiescent = new ObjectAnimator();
     private KeyButtonRipple mRipple;
     private LongClickCallback mCallback;
 
@@ -125,14 +114,13 @@ public class KeyButtonView extends ImageView {
 
         mSupportsLongpress = a.getBoolean(R.styleable.KeyButtonView_keyRepeat, true);
 
-        setDrawingAlpha(mQuiescentAlpha);
-
         TypedValue value = new TypedValue();
         if (a.getValue(R.styleable.KeyButtonView_android_contentDescription, value)) {
             mContentDescriptionRes = value.resourceId;
         }
 
         a.recycle();
+
 
         setClickable(true);
         mTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
@@ -154,7 +142,7 @@ public class KeyButtonView extends ImageView {
         super.onInitializeAccessibilityNodeInfo(info);
         if (mCode != 0) {
             info.addAction(new AccessibilityNodeInfo.AccessibilityAction(ACTION_CLICK, null));
-            if (mSupportsLongpress) {
+            if (mSupportsLongpress || isLongClickable()) {
                 info.addAction(
                         new AccessibilityNodeInfo.AccessibilityAction(ACTION_LONG_CLICK, null));
             }
@@ -187,55 +175,24 @@ public class KeyButtonView extends ImageView {
     }
 
     @Override
-    public boolean performAccessibilityAction(int action, Bundle arguments) {
+    public boolean performAccessibilityActionInternal(int action, Bundle arguments) {
         if (action == ACTION_CLICK && mCode != 0) {
             sendEvent(KeyEvent.ACTION_DOWN, 0, SystemClock.uptimeMillis());
             sendEvent(KeyEvent.ACTION_UP, 0);
             sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_CLICKED);
             playSoundEffect(SoundEffectConstants.CLICK);
             return true;
-        } else if (action == ACTION_LONG_CLICK && mCode != 0 && mSupportsLongpress) {
+        } else if (action == ACTION_LONG_CLICK && mCode != 0) {
             sendEvent(KeyEvent.ACTION_DOWN, KeyEvent.FLAG_LONG_PRESS);
             sendEvent(KeyEvent.ACTION_UP, 0);
             sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_LONG_CLICKED);
             return true;
         }
-        return super.performAccessibilityAction(action, arguments);
-    }
-
-    public void setQuiescentAlpha(float alpha, boolean animate) {
-        mAnimateToQuiescent.cancel();
-        alpha = Math.min(Math.max(alpha, 0), 1);
-        if (alpha == mQuiescentAlpha && alpha == mDrawingAlpha) return;
-        mQuiescentAlpha = alpha;
-        if (DEBUG) Log.d(TAG, "New quiescent alpha = " + mQuiescentAlpha);
-        if (animate) {
-            mAnimateToQuiescent = animateToQuiescent();
-            mAnimateToQuiescent.start();
-        } else {
-            setDrawingAlpha(mQuiescentAlpha);
-        }
-    }
-
-    private ObjectAnimator animateToQuiescent() {
-        return ObjectAnimator.ofFloat(this, "drawingAlpha", mQuiescentAlpha);
+        return super.performAccessibilityActionInternal(action, arguments);
     }
 
     public void setRippleColor(int color) {
         mRipple.setColor(color);
-    }
-
-    public float getQuiescentAlpha() {
-        return mQuiescentAlpha;
-    }
-
-    public float getDrawingAlpha() {
-        return mDrawingAlpha;
-    }
-
-    public void setDrawingAlpha(float x) {
-        setImageAlpha((int) (x * 255));
-        mDrawingAlpha = x;
     }
 
     public boolean onTouchEvent(MotionEvent ev) {
@@ -256,10 +213,8 @@ public class KeyButtonView extends ImageView {
                 if (mCode != 0) {
                     sendEvent(KeyEvent.ACTION_DOWN, 0, mDownTime);
                 }
-                if (mSupportsLongpress) {
-                    removeCallbacks(mCheckLongPress);
-                    postDelayed(mCheckLongPress, ViewConfiguration.getLongPressTimeout());
-                }
+                removeCallbacks(mCheckLongPress);
+                postDelayed(mCheckLongPress, ViewConfiguration.getLongPressTimeout());
                 break;
             case MotionEvent.ACTION_MOVE:
                 x = (int)ev.getX();
@@ -277,9 +232,7 @@ public class KeyButtonView extends ImageView {
                 if (mCode != 0) {
                     sendEvent(KeyEvent.ACTION_UP, KeyEvent.FLAG_CANCELED);
                 }
-                if (mSupportsLongpress) {
-                    removeCallbacks(mCheckLongPress);
-                }
+                removeCallbacks(mCheckLongPress);
                 break;
             case MotionEvent.ACTION_UP:
                 final boolean doIt = isPressed();
@@ -305,9 +258,7 @@ public class KeyButtonView extends ImageView {
                         sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_CLICKED);
                     }
                 }
-                if (mSupportsLongpress) {
-                    removeCallbacks(mCheckLongPress);
-                }
+                removeCallbacks(mCheckLongPress);
                 break;
         }
 
@@ -383,4 +334,3 @@ public class KeyButtonView extends ImageView {
         public boolean onLongClick(View v);
     }
 }
-

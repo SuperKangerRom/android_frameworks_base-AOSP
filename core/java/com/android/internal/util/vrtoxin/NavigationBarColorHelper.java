@@ -13,7 +13,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-
+/*
 package com.android.internal.util.vrtoxin;
 
 import android.app.Notification;
@@ -96,4 +96,4 @@ public class NavigationBarColorHelper {
         return Settings.System.getInt(context.getContentResolver(),
                 Settings.System.NAVIGATION_BAR_BUTTON_RIPPLE_COLOR, WHITE);
     }
-}
+}*/
