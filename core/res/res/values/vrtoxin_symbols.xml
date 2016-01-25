@@ -205,8 +205,6 @@
 
   <java-symbol type="array" name="anim_controls_entries" />
 
-  <java-symbol type="bool" name="config_dozeUseAccelerometer" />
-
   <!--Setting confirmation dialog-->
   <java-symbol type="style" name="Widget.GifView" />
   <java-symbol type="id" name="setting_confirmation_dialog_visual_hint" />

@@ -150,6 +150,9 @@ final class DisplayPowerController implements AutomaticBrightnessController.Call
     // The proximity sensor, or null if not available or needed.
     private Sensor mProximitySensor;
 
+    // The doze screen brightness.
+    private final int mScreenBrightnessDozeConfig;
+
     // The dim screen brightness.
     private final int mScreenBrightnessDimConfig;
 
@@ -297,6 +300,9 @@ final class DisplayPowerController implements AutomaticBrightnessController.Call
         final int screenBrightnessSettingMinimum = clampAbsoluteBrightness(resources.getInteger(
                 com.android.internal.R.integer.config_screenBrightnessSettingMinimum));
 
+        mScreenBrightnessDozeConfig = clampAbsoluteBrightness(resources.getInteger(
+                com.android.internal.R.integer.config_screenBrightnessDoze));
+
         mScreenBrightnessDimConfig = clampAbsoluteBrightness(resources.getInteger(
                 com.android.internal.R.integer.config_screenBrightnessDim));
 
@@ -395,46 +401,6 @@ final class DisplayPowerController implements AutomaticBrightnessController.Call
         mContext.bindServiceAsUser(intent, mKeyguardConnection,
                 Context.BIND_AUTO_CREATE, UserHandle.OWNER);
 
-    }
-
-    /**
-     * Returns true if we want to overwrite doze values.
-     */
-    public boolean getOverwriteValue() {
-        final int values = Settings.System.getIntForUser(mContext.getContentResolver(),
-               Settings.System.DOZE_OVERWRITE_VALUE, 0,
-                    UserHandle.USER_CURRENT);
-        return values != 0;
-    }
-
-    /**
-     * Doze screen brightness.
-     */
-    private int screenBrightnessDozeConfig() {
-        if (getOverwriteValue()) {
-            return Settings.System.getIntForUser(mContext.getContentResolver(),
-                Settings.System.DOZE_BRIGHTNESS, clampAbsoluteBrightness(mContext.getResources().getInteger(
-                    com.android.internal.R.integer.config_screenBrightnessDoze)), UserHandle.USER_CURRENT);
-        } else {
-            return clampAbsoluteBrightness(mContext.getResources().getInteger(
-                        com.android.internal.R.integer.config_screenBrightnessDoze));
-        }
-    }
-
-    /**
-     * Doze screen auto brightness.
-     */
-    public boolean allowAutoBrightnessWhileDozingConfig() {
-        if (getOverwriteValue()) {
-            return Settings.System.getIntForUser(
-                mContext.getContentResolver(), Settings.System.DOZE_AUTO_BRIGHTNESS,
-                        mContext.getResources().getBoolean(
-                com.android.internal.R.bool.config_allowAutoBrightnessWhileDozing)
-                        ? 1 : 0, UserHandle.USER_CURRENT) != 0;
-        } else {
-            return mContext.getResources().getBoolean(
-                com.android.internal.R.bool.config_allowAutoBrightnessWhileDozing);
-        }
     }
 
     /**
@@ -637,7 +603,7 @@ final class DisplayPowerController implements AutomaticBrightnessController.Call
                 } else {
                     state = Display.STATE_DOZE;
                 }
-                if (!allowAutoBrightnessWhileDozingConfig()) {
+                if (!mAllowAutoBrightnessWhileDozingConfig) {
                     brightness = mPowerRequest.dozeScreenBrightness;
                 }
                 break;
@@ -689,17 +655,11 @@ final class DisplayPowerController implements AutomaticBrightnessController.Call
         if (state == Display.STATE_OFF) {
             brightness = PowerManager.BRIGHTNESS_OFF;
         }
-/*
-        // Disable button lights when dozing
-        if (state == Display.STATE_DOZE || state == Display.STATE_DOZE_SUSPEND) {
-            mLights.getLight(LightsManager.LIGHT_ID_BUTTONS).setBrightness(PowerManager.BRIGHTNESS_OFF);
-            mLights.getLight(LightsManager.LIGHT_ID_KEYBOARD).setBrightness(PowerManager.BRIGHTNESS_OFF);
-        }
-*/
+
         // Configure auto-brightness.
         boolean autoBrightnessEnabled = false;
         if (mAutomaticBrightnessController != null) {
-            final boolean autoBrightnessEnabledInDoze = allowAutoBrightnessWhileDozingConfig()
+            final boolean autoBrightnessEnabledInDoze = mAllowAutoBrightnessWhileDozingConfig
                     && (state == Display.STATE_DOZE || state == Display.STATE_DOZE_SUSPEND);
             autoBrightnessEnabled = mPowerRequest.useAutoBrightness
                     && (state == Display.STATE_ON || autoBrightnessEnabledInDoze)
@@ -744,7 +704,7 @@ final class DisplayPowerController implements AutomaticBrightnessController.Call
         // Use default brightness when dozing unless overridden.
         if (brightness < 0 && (state == Display.STATE_DOZE
                 || state == Display.STATE_DOZE_SUSPEND)) {
-            brightness = screenBrightnessDozeConfig();
+            brightness = mScreenBrightnessDozeConfig;
         }
 
         // Apply manual brightness.
@@ -1177,14 +1137,14 @@ final class DisplayPowerController implements AutomaticBrightnessController.Call
 
         pw.println();
         pw.println("Display Power Controller Configuration:");
-        pw.println("  screenBrightnessDozeConfig()=" + screenBrightnessDozeConfig());
+        pw.println("  mScreenBrightnessDozeConfig=" + mScreenBrightnessDozeConfig);
         pw.println("  mScreenBrightnessDimConfig=" + mScreenBrightnessDimConfig);
         pw.println("  mScreenBrightnessDarkConfig=" + mScreenBrightnessDarkConfig);
         pw.println("  mScreenBrightnessRangeMinimum=" + mScreenBrightnessRangeMinimum);
         pw.println("  mScreenBrightnessRangeMaximum=" + mScreenBrightnessRangeMaximum);
         pw.println("  mUseSoftwareAutoBrightnessConfig=" + mUseSoftwareAutoBrightnessConfig);
-        pw.println("  allowAutoBrightnessWhileDozingConfig()=" +
-                allowAutoBrightnessWhileDozingConfig());
+        pw.println("  mAllowAutoBrightnessWhileDozingConfig=" +
+                mAllowAutoBrightnessWhileDozingConfig);
         pw.println("  mColorFadeFadesConfig=" + mColorFadeFadesConfig);
 
         mHandler.runWithScissors(new Runnable() {

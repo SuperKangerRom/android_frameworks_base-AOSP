@@ -71,9 +71,5 @@ public class AmbientButton extends QabButton {
 
     @Override
     public void handleLongClick() {
-        Intent intent = new Intent(Intent.ACTION_MAIN);
-        intent.setClassName("com.android.settings",
-            "com.android.settings.Settings$AmbientDisplaySettingsActivity");
-        mBar.startSettingsActivity(intent);
     }
 }
