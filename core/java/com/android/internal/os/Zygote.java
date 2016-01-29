@@ -42,7 +42,11 @@ public final class Zygote {
     /** enable the JIT compiler */
     public static final int DEBUG_ENABLE_JIT         = 1 << 5;
     /** Force generation of native debugging information. */
-    public static final int DEBUG_GENERATE_DEBUG_INFO = 1 << 6;
+    public static final int DEBUG_GENERATE_DEBUG_INFO = 1 << 5;
+    /** Always use JIT-ed code. */
+    public static final int DEBUG_ALWAYS_JIT = 1 << 6;
+    /** Make the code debuggable with turning off some optimizations. */
+    public static final int DEBUG_NATIVE_DEBUGGABLE = 1 << 7;
 
     /** No external storage should be mounted. */
     public static final int MOUNT_EXTERNAL_NONE = 0;
