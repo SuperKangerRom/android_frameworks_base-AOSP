@@ -6331,6 +6331,24 @@ public final class Settings {
         public static final String DOZE_BRIGHTNESS = "doze_brightness";
 
         /**
+         *  Color of the user - and multi user switch icon on the status bar (lock screen)
+         * @hide
+         */
+        public static final String STATUS_BAR_MULTI_USER_SWITCH_ICON_COLOR = "status_bar_multi_user_switch_icon_color";
+
+        /**
+         *  Color of the multi user switch active text and symbol frame on the status bar (lock screen)
+         * @hide
+         */
+        public static final String STATUS_BAR_MULTI_USER_SWITCH_ACTIVE_TEXT_COLOR = "status_bar_multi_user_switch_active_text_color";
+
+        /**
+         *  Color of the multi user switch inactive text on the status bar (lock screen)
+         * @hide
+         */
+        public static final String STATUS_BAR_MULTI_USER_SWITCH_INACTIVE_TEXT_COLOR = "status_bar_multi_user_switch_inactive_text_color";
+
+        /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
          *
