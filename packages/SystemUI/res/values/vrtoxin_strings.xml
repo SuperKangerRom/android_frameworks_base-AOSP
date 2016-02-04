@@ -321,4 +321,10 @@
     <string name="nav_bar_enabled">Navigation Bar Enabled</string>
     <string name="nav_bar_disabled">Navigation Bar Disabled</string>
 
+    <!-- Content description of the caffeine tile in quick settings when off (not shown on the screen). [CHAR LIMIT=NONE] -->
+    <string name="accessibility_quick_settings_caffeine_off">Caffeine off</string>
+    <!-- Content description of the caffeine tile in quick settings when on (not shown on the screen). [CHAR LIMIT=NONE] -->
+    <string name="accessibility_quick_settings_caffeine_on">Caffeine on</string>
+    <string name="quick_settings_caffeine_label">Caffeine</string>
+
 </resources>
