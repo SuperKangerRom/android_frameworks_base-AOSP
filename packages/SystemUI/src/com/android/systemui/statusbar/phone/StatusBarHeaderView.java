@@ -851,8 +851,8 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
                 mActivityStarter.startActivity(vrtoxinShortcutIntent, true);
             } else {
                 Intent intent = new Intent(Intent.ACTION_MAIN);
-                intent.setClassName("com.android.settings",
-                    "com.android.settings.Settings$MainSettingsActivity");
+                intent.setClassName("com.android.vrtoxin",
+                    "com.android.vrtoxin.VRToxinActivity");
                 mActivityStarter.startActivity(intent, true /* dismissShade */);
             }
     }
@@ -874,7 +874,7 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
             } else {
                 Intent intent = new Intent(Intent.ACTION_MAIN);
                 intent.setClassName("com.android.settings",
-                    "com.android.settings.Settings$ChangelogSettingsActivity");
+                    "com.android.settings.Settings$MainSettingsActivity");
                 mActivityStarter.startActivity(intent, true /* dismissShade */);
             }
     }
