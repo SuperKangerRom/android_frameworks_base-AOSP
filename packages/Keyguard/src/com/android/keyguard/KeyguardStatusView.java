@@ -246,7 +246,6 @@ public class KeyguardStatusView extends GridLayout implements
         mClockView.setFormat12Hour(Patterns.clockView12);
         mClockView.setFormat24Hour(Patterns.clockView24);
         updateLockScreenFontStyle();
-        getLockClockFont();
         updateClockSize();
     }
 
