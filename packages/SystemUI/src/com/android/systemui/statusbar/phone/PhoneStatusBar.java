@@ -2131,12 +2131,14 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
                     | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
                     | WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH
-                    | WindowManager.LayoutParams.FLAG_SPLIT_TOUCH,
+                    | WindowManager.LayoutParams.FLAG_SPLIT_TOUCH
+                    | WindowManager.LayoutParams.FLAG_SPLIT_TOUCH
+                    | WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
                 PixelFormat.TRANSLUCENT);
         // this will allow the navbar to run in an overlay on devices that support this
-        if (ActivityManager.isHighEndGfx()) {
-            lp.flags |= WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED;
-        }
+        //if (ActivityManager.isHighEndGfx()) {
+        //    lp.flags |= WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED;
+        //}
 
         lp.setTitle("NavigationBar");
         lp.windowAnimations = 0;
@@ -3930,6 +3932,10 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         mNavigationIconHints = hints;
 
         propagateNavigationIconHints(hints);
+
+        if (mPaPieController != null) {
+            mPaPieController.setNavigationIconHints(hints);
+        }
         checkBarModes();
     }
 
@@ -4244,6 +4250,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
     }
 
     public void topAppWindowChanged(boolean showMenu) {
+        if (mPaPieController != null && mPaPieController.getControlPanel() != null)
+            mPaPieController.getControlPanel().setMenu(showMenu);
+
         if (DEBUG) {
             Log.d(TAG, (showMenu?"showing":"hiding") + " the MENU button");
         }
@@ -4587,6 +4596,8 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                 notifyHeadsUpScreenOff();
                 finishBarAnimations();
                 resetUserExpandedStates();
+                // detach PA Pie when screen is turned off
+                if (mPaPieController != null) mPaPieController.detachPie();
             }
             else if (Intent.ACTION_CONFIGURATION_CHANGED.equals(action)) {
                 Configuration config = mContext.getResources().getConfiguration();
