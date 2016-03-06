@@ -141,4 +141,8 @@
     <dimen name="pa_pie_tab_title_height">24dp</dimen>
     <dimen name="pa_pie_panel_padding">20dp</dimen>
 
+    <!-- Panel Shortcuts -->
+    <dimen name="shortcut_seperater_width">8dp</dimen>
+    <dimen name="shortcut_margin_top">25dp</dimen>
+
 </resources>

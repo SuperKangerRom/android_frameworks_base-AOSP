@@ -173,4 +173,7 @@
      <string name="notify_battery_fully_charged_title">Battery fully charged</string>
      <string name="notify_battery_fully_charged_text">Disconnect your device from the charger to improve battery longevity.</string>
 
+    <!-- Empty Shade Text -->
+    <string name="default_empty_shade_text">Nothing To See Here</string>
+
 </resources>
