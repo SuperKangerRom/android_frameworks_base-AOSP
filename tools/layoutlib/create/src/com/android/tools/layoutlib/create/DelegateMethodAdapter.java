@@ -85,6 +85,8 @@ class DelegateMethodAdapter extends MethodVisitor {
     private String mDesc;
     /** True if the original method is static. */
     private final boolean mIsStatic;
+    /** True if the method is contained in a static inner class */
+    private final boolean mIsStaticInnerClass;
     /** The internal class name (e.g. <code>com/android/SomeClass$InnerClass</code>.) */
     private final String mClassName;
     /** The method name. */
@@ -120,8 +122,10 @@ class DelegateMethodAdapter extends MethodVisitor {
             String className,
             String methodName,
             String desc,
-            boolean isStatic) {
+            boolean isStatic,
+            boolean isStaticClass) {
         super(Main.ASM_VERSION);
+        super(Opcodes.ASM4);
         mLog = log;
         mOrgWriter = mvOriginal;
         mDelWriter = mvDelegate;
@@ -129,6 +133,7 @@ class DelegateMethodAdapter extends MethodVisitor {
         mMethodName = methodName;
         mDesc = desc;
         mIsStatic = isStatic;
+        mIsStaticInnerClass = isStaticClass;
     }
 
     /**
@@ -206,7 +211,7 @@ class DelegateMethodAdapter extends MethodVisitor {
         // by the 'this' of any outer class, if any.
         if (!mIsStatic) {
 
-            if (outerType != null) {
+            if (outerType != null && !mIsStaticInnerClass) {
                 // The first-level inner class has a package-protected member called 'this$0'
                 // that points to the outer class.
 
