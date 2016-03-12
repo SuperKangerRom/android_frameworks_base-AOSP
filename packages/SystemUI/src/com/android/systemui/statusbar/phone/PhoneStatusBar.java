@@ -132,7 +132,6 @@ import com.android.internal.util.vrtoxin.FontHelper;
 import com.android.internal.util.vrtoxin.EmptyShadeColorHelper;
 import com.android.internal.util.vrtoxin.WeatherControllerImpl;
 import com.android.internal.util.vrtoxin.GreetingTextHelper;
-
 import com.android.keyguard.CarrierText;
 import com.android.keyguard.KeyguardHostView.OnDismissAction;
 import com.android.keyguard.KeyguardUpdateMonitor;
@@ -421,6 +420,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
     private boolean mShowTicker;
     private boolean mHeadsUpEnabled;
 
+    // force ShadeView
+    private boolean mForceShadeView;
+
     // Tracking finger for opening/closing.
     boolean mTracking;
     VelocityTracker mVelocityTracker;
@@ -703,6 +705,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.STATUS_BAR_EMPTY_SHADE_IMAGE),
                     false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.STATUS_BAR_EMPTY_SHADE_FORCE_SHOW),
+                    false, this, UserHandle.USER_ALL);
             update();
         }
 
@@ -915,6 +920,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             } else if (uri.equals(Settings.System.getUriFor(
                     Settings.System.STATUS_BAR_EMPTY_SHADE_IMAGE))) {
                 showEmptyShadeImage();
+            } else if (uri.equals(Settings.System.getUriFor(
+                    Settings.System.STATUS_BAR_EMPTY_SHADE_FORCE_SHOW))) {
+                forceEmptyShadeView();
             }
             update();
         }
@@ -1653,9 +1661,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         mStackScroller.setSpeedBumpView(speedBump);
         mEmptyShadeView = (EmptyShadeView) LayoutInflater.from(mContext).inflate(
                 R.layout.status_bar_no_notifications, mStackScroller, false);
-        if (mEmptyShadeView != null) {
-            mEmptyShadeView.setUp(this);
-        }
+        mEmptyShadeView.setUp(this);
         mStackScroller.setEmptyShadeView(mEmptyShadeView);
         mDismissView = (DismissView) LayoutInflater.from(mContext).inflate(
                 R.layout.status_bar_notification_dismiss_all, mStackScroller, false);
@@ -2892,6 +2898,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         setEmptyShadeTextSize();
         setEmptyShadeText();
         showEmptyShadeImage();
+        forceEmptyShadeView();
     }
 
     private void updateShowGreeting() {
@@ -3389,6 +3396,15 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
         if (mEmptyShadeView != null) {
             mEmptyShadeView.showRomLogo(show);
+        }
+    }
+
+    private void forceEmptyShadeView() {
+
+        mForceShadeView = Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.STATUS_BAR_EMPTY_SHADE_FORCE_SHOW, 0) == 1;
+        if (mStackScroller != null) {
+            mStackScroller.forceShowShade(mForceShadeView);
         }
     }
 
