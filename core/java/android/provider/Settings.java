@@ -6647,6 +6647,12 @@ public final class Settings {
         public static final String PA_PIE_CHEVRON = "pa_pie_chevron";
 
         /**
+         * Dash Switches
+         * @hide
+         */
+        public static final String SETTINGS_SWITCHES= "settings_switches";
+
+        /**
          * Empty Shade Text Color
          * @hide
          */
