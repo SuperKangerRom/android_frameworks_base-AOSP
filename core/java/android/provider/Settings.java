@@ -6738,6 +6738,12 @@ public final class Settings {
          */
         public static final String PANEL_SHORTCUTS_ICON_SIZE = "panel_shortcuts_icon_size";
 
+        /** Font style of for all textviews
+         *
+         * @hide
+         */
+        public static final String MASTER_FONT_STYLE = "master_font_style";
+
         /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
