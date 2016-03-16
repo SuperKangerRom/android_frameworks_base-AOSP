@@ -6110,7 +6110,7 @@ public final class Settings {
          * Option to use two columns in dashboard settings by default
          * @hide
          */
-        public static final String DASHBOARD_COLUMN_COUNT = "dashboard_column_count";
+        public static final String DASHBOARD_COLUMNS_COUNT = "dashboard_columns_count";
 
         /**
          * Override and forcefully disable the fullscreen keyboard
