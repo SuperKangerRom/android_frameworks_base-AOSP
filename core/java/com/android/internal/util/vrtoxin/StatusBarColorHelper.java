@@ -171,7 +171,7 @@ public class StatusBarColorHelper {
     public static int getSettingsTitleTextColor(Context context) {
         return Settings.System.getInt(context.getContentResolver(),
                 Settings.System.SETTINGS_TITLE_TEXT_COLOR,
-                VRTOXIN_BLUE);
+                WHITE);
     }
 
     /*public static int getActionBarIconColor(Context context) {
