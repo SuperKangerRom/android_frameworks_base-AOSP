@@ -100,4 +100,7 @@
     <color name="battery_background">#ffffff</color>
     <color name="status">#ffffff</color>
 
+    <!-- Expansion View Background Color (default)-->
+    <color name="expansion_view_bg_color">#ffffffff</color>
+
 </resources>
