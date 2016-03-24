@@ -162,7 +162,6 @@ public class StatusBarIconController {
     private boolean mShowTicker;
     private boolean mTicking;
     private boolean mTickingEnd = false;
-    private boolean mHeadsUpEnabled;
 
     private int mGreetingFontSize = 14;
 
@@ -886,11 +885,9 @@ public class StatusBarIconController {
 
     public void updateShowTicker(boolean show) {
         mShowTicker = show;
-        inflateTickerView();
-    }
-
-    public void showHeadsUpState(boolean show) {
-        mHeadsUpEnabled = show;
+        if (mShowTicker && (mTicker == null || mTickerView == null)) {
+            inflateTickerView();
+        }
     }
 
     public void updateNotificationIconColor() {
@@ -910,7 +907,7 @@ public class StatusBarIconController {
     }
 
     private void updateTickerIconColor(int color) {
-        if (!mHeadsUpEnabled && mShowTicker && mTicker != null && mTickerView != null) {
+        if (mTicker != null && mTickerView != null) {
             mTicker.setIconColorTint(ColorStateList.valueOf(color));
         }
     }
@@ -918,7 +915,7 @@ public class StatusBarIconController {
     public void updateTickerTextColor() {
         mTickerTextColor = StatusBarColorHelper.getTickerTextColor(mContext);
         mTickerTextColorTint = mTickerTextColor;
-        if (!mHeadsUpEnabled && mShowTicker && mTicker != null && mTickerView != null) {
+        if (mTicker != null && mTickerView != null) {
             mTicker.setTextColor(mTickerTextColor);
         }
     }

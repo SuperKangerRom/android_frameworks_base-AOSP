@@ -420,7 +420,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
     // ticker
     private boolean mShowTicker;
-    private boolean mHeadsUpEnabled;
 
     // Expanded Panel
     private ExpansionView mExpansionView;
@@ -683,9 +682,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.STATUS_BAR_TICKER_TEXT_COLOR),
                     false, this, UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.Global.getUriFor(
-                    Settings.Global.HEADS_UP_NOTIFICATIONS_ENABLED),
-                    false, this, UserHandle.USER_ALL);
             /*resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.STATUS_BAR_NOTIF_COUNT_ICON_COLOR),
                     false, this, UserHandle.USER_ALL);
@@ -739,6 +735,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     false, this);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.EXPANSION_VIEW_LAYOUT_CHANGER),
+                    false, this);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.EXPANSION_VIEW_ANIMATION),
                     false, this);
             update();
         }
@@ -928,9 +927,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             } else if (uri.equals(Settings.System.getUriFor(
                     Settings.System.STATUS_BAR_TICKER_ICON_COLOR))) {
                 updateTickerIconColor();
-            } else if (uri.equals(Settings.Global.getUriFor(
-                    Settings.Global.HEADS_UP_NOTIFICATIONS_ENABLED))) {
-                showHeadsUpState();
             /*} else if (uri.equals(Settings.System.getUriFor(
                     Settings.System.STATUS_BAR_NOTIF_COUNT_ICON_COLOR))) {
                 updateNotifCountIconColor();
@@ -979,6 +975,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             } else if (uri.equals(Settings.System.getUriFor(
                     Settings.System.EXPANSION_VIEW_LAYOUT_CHANGER))) {
                 setExpansionViewLayoutChanger();
+            } else if (uri.equals(Settings.System.getUriFor(
+                    Settings.System.EXPANSION_VIEW_ANIMATION))) {
+                setExpansionViewAnimation();
             }
             update();
         }
@@ -2969,6 +2968,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         setExpansionViewBg();
         setExpansionViewWeatherColors();
         setExpansionViewLayoutChanger();
+        setExpansionViewAnimation();
     }
 
     private void updateShowGreeting() {
@@ -3298,12 +3298,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         }
     }
 
-    private void showHeadsUpState() {
-        if (mIconController != null) {
-            mIconController.showHeadsUpState(mHeadsUpEnabled);
-        }
-    }
-
     private void updateNotificationIconColor() {
         if (mIconController != null) {
             mIconController.updateNotificationIconColor();
@@ -3495,6 +3489,12 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
         if (mExpansionView != null) {
             mExpansionView.showLayoutChanger(showChanger);
+        }
+    }
+
+    private void setExpansionViewAnimation() {
+        if (mExpansionView != null) {
+            mExpansionView.setAnimationStyle();
         }
     }
 

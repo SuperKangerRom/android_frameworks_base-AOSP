@@ -6830,6 +6830,12 @@ public final class Settings {
         public static final String EXPANSION_VIEW_LAYOUT_CHANGER = "expansion_view_layout_changer";
 
         /**
+         * Expansion View Change Animation
+         * @hide
+         */
+        public static final String EXPANSION_VIEW_ANIMATION = "expansion_view_animation";
+
+        /**
          * Custom shortcuts for the empty shade view
          * @hide
          */

@@ -65,6 +65,8 @@ public class ExpansionView extends FrameLayout {
     private boolean mShortcutPanelVisible = false;
     private boolean mWeatherAvailable = false;
 
+    private int mExpansionViewAnimation;
+
     public ExpansionView(Context context) {
         this(context, null);
     }
@@ -121,20 +123,55 @@ public class ExpansionView extends FrameLayout {
     }
 
     public void changeView(boolean animate) {
+        setAnimationStyle();
         if (!mShortcutPanelVisible) {
             mWeatherPanel.setVisibility(View.INVISIBLE);
             mShortcutPanel.setVisibility(View.VISIBLE);
             if (animate) {
-                mShortcutPanel.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.push_right_in));
-                mWeatherPanel.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.push_left_out));
+                if (mExpansionViewAnimation == 0) {
+                    mShortcutPanel.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.push_down_in));
+                    mWeatherPanel.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.push_down_out));
+                } else if (mExpansionViewAnimation == 1) {
+                    mShortcutPanel.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.push_left_in));
+                    mWeatherPanel.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.push_right_out));
+                } else if (mExpansionViewAnimation == 2) {
+                    mShortcutPanel.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.push_right_in));
+                    mWeatherPanel.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.push_left_out));
+                } else if (mExpansionViewAnimation == 3) {
+                    mShortcutPanel.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.rotate));
+                    mWeatherPanel.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.push_down_out));
+                } else if (mExpansionViewAnimation == 4) {
+                    mShortcutPanel.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.turn_in));
+                    mWeatherPanel.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.turn_out));
+                } else if (mExpansionViewAnimation == 5) {
+                    mShortcutPanel.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.push_up_in));
+                    mWeatherPanel.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.push_up_out));
+                }
              }
              mShortcutPanelVisible = true;
         } else {
             mShortcutPanel.setVisibility(View.INVISIBLE);
             mWeatherPanel.setVisibility(View.VISIBLE);
             if (animate) {
-                mWeatherPanel.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.push_left_in));
-                mShortcutPanel.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.push_right_out));
+                if (mExpansionViewAnimation == 0) {
+                    mWeatherPanel.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.push_down_in));
+                    mShortcutPanel.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.push_down_out));
+                } else if (mExpansionViewAnimation == 1) {
+                    mWeatherPanel.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.push_left_in));
+                    mShortcutPanel.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.push_right_out));
+                } else if (mExpansionViewAnimation == 2) {
+                    mWeatherPanel.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.push_right_in));
+                    mShortcutPanel.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.push_left_out));
+                } else if (mExpansionViewAnimation == 3) {
+                    mWeatherPanel.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.rotate));
+                    mShortcutPanel.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.push_down_out));
+                } else if (mExpansionViewAnimation == 4) {
+                    mWeatherPanel.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.turn_in));
+                    mShortcutPanel.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.turn_out));
+                } else if (mExpansionViewAnimation == 5) {
+                    mWeatherPanel.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.push_up_in));
+                    mShortcutPanel.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.push_up_out));
+                }
              }
              mShortcutPanelVisible = false;
          }
@@ -198,6 +235,11 @@ public class ExpansionView extends FrameLayout {
 
     public void setTypeface(Typeface tf) {
         mCustomText.setTypeface(tf);
+    }
+
+    public void setAnimationStyle() {
+        mExpansionViewAnimation = Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.EXPANSION_VIEW_ANIMATION, 0);
     }
 
     private void handleTextLongClick() {
