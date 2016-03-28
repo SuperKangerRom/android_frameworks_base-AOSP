@@ -28,7 +28,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.systemui.R;
-import com.android.systemui.cm.UserContentObserver;
+import com.android.systemui.vrtoxin.UserContentObserver;
 
 public class MediaExpandableNotificationRow extends ExpandableNotificationRow {
 

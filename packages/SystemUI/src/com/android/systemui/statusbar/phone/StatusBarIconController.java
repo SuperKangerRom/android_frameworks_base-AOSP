@@ -1023,19 +1023,17 @@ public class StatusBarIconController {
     }
 
     private void inflateTickerView() {
-        if (!mHeadsUpEnabled && mShowTicker && (mTicker == null || mTickerView == null)) {
-            final ViewStub tickerStub = (ViewStub) mStatusBar.findViewById(R.id.ticker_stub);
-            if (tickerStub != null) {
-                mTickerView = tickerStub.inflate();
-                mTicker = new MyTicker(mContext, mStatusBar);
+        final ViewStub tickerStub = (ViewStub) mStatusBar.findViewById(R.id.ticker_stub);
+        if (tickerStub != null) {
+            mTickerView = tickerStub.inflate();
+            mTicker = new MyTicker(mContext, mStatusBar);
 
-                TickerView tickerView = (TickerView) mStatusBar.findViewById(R.id.tickerText);
-                tickerView.mTicker = mTicker;
-                updateTickerIconColor(mTickerIconColor);
-                updateTickerTextColor();
-            } else {
-                mShowTicker = false;
-            }
+            TickerView tickerView = (TickerView) mStatusBar.findViewById(R.id.tickerText);
+            tickerView.mTicker = mTicker;
+            updateTickerIconColor(mNotificationIconColor);
+            updateTickerTextColor();
+        } else {
+            mShowTicker = false;
         }
     }
 
