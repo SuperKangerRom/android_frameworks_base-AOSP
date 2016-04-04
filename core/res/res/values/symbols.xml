@@ -2374,4 +2374,9 @@
 
   <!-- Array of default activities with custom power management -->
   <java-symbol type="array" name="config_auto_perf_activities" />
+
+  <!-- From telephony_common -->
+  <java-symbol type="bool" name="config_use_capital_timezone" />
+  <java-symbol type="xml" name="capital_city_time_zone" />
+
 </resources>

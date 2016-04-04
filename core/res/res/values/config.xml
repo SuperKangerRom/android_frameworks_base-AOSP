@@ -2509,4 +2509,8 @@
     <string-array name="config_auto_perf_activities" translatable="false">
     </string-array>
 
+    <!-- If true, when timezone info cannot obtain from network,
+         multi timezones country will use capital city timezone.  -->
+    <bool name="config_use_capital_timezone">false</bool>
+
 </resources>
