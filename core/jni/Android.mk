@@ -1,6 +1,5 @@
 LOCAL_PATH:= $(call my-dir)
 include $(CLEAR_VARS)
-LOCAL_ADDITIONAL_DEPENDENCIES := $(LOCAL_PATH)/Android.mk
 
 LOCAL_CFLAGS += -DHAVE_CONFIG_H -DKHTML_NO_EXCEPTIONS -DGKWQ_NO_JAVA
 LOCAL_CFLAGS += -DNO_SUPPORT_JS_BINDING -DQT_NO_WHEELEVENT -DKHTML_NO_XBL
@@ -262,11 +261,14 @@ LOCAL_SHARED_LIBRARIES += \
 # <bionic_tls.h> in com_google_android_gles_jni_GLImpl.cpp
 LOCAL_C_INCLUDES += bionic/libc/private
 
+# AndroidRuntime.h depends on nativehelper/jni.h
+LOCAL_EXPORT_C_INCLUDE_DIRS := libnativehelper/include
+
 LOCAL_MODULE:= libandroid_runtime
 
 # -Wno-unknown-pragmas: necessary for Clang as the GL bindings need to turn
 #                       off a GCC warning that Clang doesn't know.
-LOCAL_CFLAGS += -Wall -Werror -Wno-error=deprecated-declarations -Wunused -Wunreachable-code \
+LOCAL_CFLAGS += -Wall -Wno-error=deprecated-declarations -Wunused -Wunreachable-code \
         -Wno-unknown-pragmas
 
 # -Wno-c++11-extensions: Clang warns about Skia using the C++11 override keyword, but this project

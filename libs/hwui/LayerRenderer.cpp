@@ -326,8 +326,9 @@ void LayerRenderer::destroyLayer(Layer* layer) {
 }
 
 void LayerRenderer::flushLayer(RenderState& renderState, Layer* layer) {
-#if defined(GL_EXT_discard_framebuffer) && !defined(EXYNOS4_ENHANCEMENTS)
+#ifdef GL_EXT_discard_framebuffer
     if (!layer) return;
+
     GLuint fbo = layer->getFbo();
     if (fbo) {
         // If possible, discard any enqueud operations on deferred

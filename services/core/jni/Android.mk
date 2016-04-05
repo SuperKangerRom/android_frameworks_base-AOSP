@@ -2,7 +2,7 @@
 # files
 LOCAL_REL_DIR := core/jni
 
-LOCAL_CFLAGS += -Wall -Werror -Wno-unused-parameter
+LOCAL_CFLAGS += -Wall
 
 ifneq ($(ENABLE_CPUSETS),)
 ifneq ($(ENABLE_SCHED_BOOST),)
@@ -71,4 +71,11 @@ LOCAL_SHARED_LIBRARIES += \
     libEGL \
     libGLESv2 \
     libnetutils \
+
+ifeq ($(BOARD_USES_QC_TIME_SERVICES),true)
+LOCAL_CFLAGS += -DHAVE_QC_TIME_SERVICES=1
+LOCAL_SHARED_LIBRARIES += libtime_genoff
+$(shell mkdir -p $(OUT)/obj/SHARED_LIBRARIES/libtime_genoff_intermediates/)
+$(shell touch $(OUT)/obj/SHARED_LIBRARIES/libtime_genoff_intermediates/export_includes)
+endif
 

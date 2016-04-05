@@ -125,7 +125,6 @@ class DelegateMethodAdapter extends MethodVisitor {
             boolean isStatic,
             boolean isStaticClass) {
         super(Main.ASM_VERSION);
-        super(Opcodes.ASM4);
         mLog = log;
         mOrgWriter = mvOriginal;
         mDelWriter = mvDelegate;

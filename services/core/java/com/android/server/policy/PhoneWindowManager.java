@@ -1782,10 +1782,8 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         mWindowManagerInternal = LocalServices.getService(WindowManagerInternal.class);
         mActivityManagerInternal = LocalServices.getService(ActivityManagerInternal.class);
         mDreamManagerInternal = LocalServices.getService(DreamManagerInternal.class);
-        mPowerManagerInternal = LocalServices.getService(PowerManagerInternal.class);
         mAppOpsManager = (AppOpsManager) mContext.getSystemService(Context.APP_OPS_SERVICE);
         mWm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
-        mPowerManagerInternal = LocalServices.getService(PowerManagerInternal.class);
         mCameraManager = (CameraManager) mContext.getSystemService(Context.CAMERA_SERVICE);
         mPowerManagerInternal = LocalServices.getService(PowerManagerInternal.class);
 
